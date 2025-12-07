@@ -1,7 +1,9 @@
+import GenerateQuiz from "@/components/custom/GenerateQuiz";
+
 const App = () => {
   return (
     <div>
-     Hello World
+    <GenerateQuiz />
     </div>)
 }
 
