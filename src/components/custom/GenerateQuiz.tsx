@@ -1,6 +1,8 @@
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ArrowUp } from 'lucide-react'
+import Difficulty from '@/components/custom/Difficulty'
+import QuizType from '@/components/custom/QuizType'
 
 const GenerateQuiz = () => {
   return (
@@ -12,8 +14,12 @@ const GenerateQuiz = () => {
       <span className="text-slate-500">
         Choose your difficulty, select a quiz type, and generate instantly
       </span>
-      <div className="w-full flex-1 absolute md:relative bottom-16">
-            <div className="w-full relative md:mt-48">
+      <div className="w-full flex-1 absolute md:relative bottom-16  md:mt-48 flex flex-col gap-y-2">
+        <div className="flex gap-x-2">
+          <Difficulty /> 
+          <QuizType />
+        </div>
+        <div className="w-full relative">
         <Input placeholder="Enter your desired quiz" className="py-6 rounded-lg"/>  
         <Button className="absolute right-2 bottom-2 p-3">
         <ArrowUp />
