@@ -33,7 +33,7 @@ const GenerateQuiz = () => {
           <CustomDropdown title="quizType" options={quizTypeOptions} state={quizData} setState={setQuizData} /> 
         </div>
         <div className="w-full relative">
-        <Input placeholder="Enter your desired quiz" className="py-6 rounded-lg"/>  
+        <Input placeholder="Create your own quiz" className="py-6 rounded-lg"/>  
         <Button className="absolute right-2 bottom-2 p-3">
         <ArrowUp />
         </Button>
