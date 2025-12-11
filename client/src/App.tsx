@@ -1,9 +1,11 @@
-import GenerateQuiz from "@/components/custom/GenerateQuiz";
+//import GenerateQuiz from "@/components/custom/GenerateQuiz";
+import QuizPage from "@/pages/QuizPage";
 
 const App = () => {
   return (
     <div>
-    <GenerateQuiz />
+    {/*<GenerateQuiz />*/} 
+    <QuizPage />
     </div>)
 }
 
