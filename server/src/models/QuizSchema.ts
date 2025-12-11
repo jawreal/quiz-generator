@@ -8,8 +8,10 @@ interface IQuizSchema {
     questionNumber: number;
     options: string[];
     correctAns: string;
-    userAns: string;
-   }[]
+    userAns: string[];
+   }[], 
+   difficulty: string;
+   quizType: string;
 }
 
 const QuizSchema = new Schema<IQuizSchema>({
@@ -20,10 +22,12 @@ const QuizSchema = new Schema<IQuizSchema>({
       question: { type: String, required: true },
       questionNumber: { type: Number, required: true },
       options: [{ type: String, required: true }],
-      correctAns: { type: String, required: true },
       userAns: { type: String, required: true },
+      correctAns: [{ type: String, required: false }],
     }
-  ]
+  ], 
+  difficulty:  userAns: { type: String, required: true }, 
+  quizType:  userAns: { type: String, required: true },
 });
 
 const QuizModel = model<IQuizSchema>("QuizModel", QuizSchema);
