@@ -14,8 +14,8 @@ const badgeVariants = cva(
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
-        difficulty: "bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-950/50",
-        quizType: "bg-pink-50 text-pink-700 border border-pink-100 dark:bg-pink-950/50",
+        difficulty: "bg-emerald-50 text-emerald-700 dark:text-emerald-200 border border-emerald-100 dark:border-0 dark:bg-slate-900/80",
+        quizType: "bg-pink-50 text-pink-700 dark:text-pink-200 border border-pink-100 dark:border-0 dark:bg-slate-900/80",
         outline: "text-foreground",
       },
     },
