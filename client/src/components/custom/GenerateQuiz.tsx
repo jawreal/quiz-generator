@@ -10,7 +10,7 @@ export interface QuizData {
 }
 
 const difficultyOptions: string[] = ["beginner", "intermediate", "advanced", "expert"]
-const quizTypeOptions: string[] = ["multiple choice", "identification", "enumeration", "mixed"]
+const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const GenerateQuiz = () => {
   const [quizData, setQuizData] = useState<QuizData>({
