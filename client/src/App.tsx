@@ -3,8 +3,8 @@ import QuizPage from "@/pages/QuizPage";
 
 const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
-  difficulty: "Intermediate",
-  quizType: "Mixed",
+  difficulty: "intermediate",
+  quizType: "mixed",
   questions: [
     // ===== Identification / Enumeration (No options) =====
     {
