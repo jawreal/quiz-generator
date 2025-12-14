@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type KeyOfVariants } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,10 +33,10 @@ interface IQuiz {
 const QuizPage = (props: IQuiz) => {
   const { title, questions, difficulty, quizType } = props;
   const DifficultyBadgeIcon = useMemo(() => {
-   return difficulty ? difficultyIcons[difficulty as string] : undefined
+   return difficulty ? difficultyIcons[difficulty.toLowerCase() as string] : undefined
   }, [difficulty])
   const QuizTypeBadgeIcon = useMemo(() => {
-   return quizType ? quizTypeIcons[quizType as string] : undefined
+   return quizType ? quizTypeIcons[quizType.toLowerCase() as string] : undefined
   }, [difficulty])
   
   
@@ -47,13 +47,13 @@ const QuizPage = (props: IQuiz) => {
      <CardHeader className="gap-y-2">
       <CardTitle className="text-2xl font-extrabold">{title ?? "No title found"}</CardTitle>
        <CardDescription className="flex gap-x-2 justify-center">
-         <Badge variant="difficulty" className="rounded-full gap-x-1 capitalize p-2">
+         <Badge variant={(difficulty?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
            {difficulty ? <Fragment>
              {DifficultyBadgeIcon ? <DifficultyBadgeIcon size={15} /> : ""}
              {difficulty}
              </Fragment> : "No quiz difficulty found"}
          </Badge>
-         <Badge variant="quizType" className="rounded-full gap-x-1 capitalize p-2">
+         <Badge variant={(quizType?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
            {quizType ? <Fragment>
              {QuizTypeBadgeIcon ? <QuizTypeBadgeIcon size={15} /> : ""}
              {quizType}

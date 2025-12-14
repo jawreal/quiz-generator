@@ -1,10 +1,11 @@
-import GenerateQuiz from "@/components/custom/GenerateQuiz";
-//import QuizPage from "@/pages/QuizPage";
+//import GenerateQuiz from "@/components/custom/GenerateQuiz";
+//import MainLayout from "@/layouts/MainLayout";
+import QuizPage from "@/pages/QuizPage";
 
 const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
-  difficulty: "intermediate",
-  quizType: "mixed",
+  difficulty: "Beginner",
+  quizType: "Mixed",
   questions: [
     // ===== Identification / Enumeration (No options) =====
     {
@@ -81,8 +82,9 @@ const App = () => {
   return (
     <div>
     {/*<GenerateQuiz />*/} 
-    <GenerateQuiz />
-    {/*<QuizPage {...mockQuiz} />*/} 
+    {/*<MainLayout />*/} 
+    <QuizPage {...mockQuiz} />
+    {/*<QuizPage {...mockQuiz} />*/}
     </div>)
 }
 
