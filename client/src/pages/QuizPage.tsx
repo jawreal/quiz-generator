@@ -4,6 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter, 
 } from "@/components/ui/card";
 import { Badge, type KeyOfVariants } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
@@ -27,11 +28,12 @@ interface IQuiz {
   questions: IQuestions[];
   difficulty: string;
   quizType: string;
+  userPrompt: string;
 }
 
 
 const QuizPage = (props: IQuiz) => {
-  const { title, questions, difficulty, quizType } = props;
+  const { title, questions, difficulty, quizType, userPrompt } = props;
   const DifficultyBadgeIcon = useMemo(() => {
    return difficulty ? difficultyIcons[difficulty.toLowerCase() as string] : undefined
   }, [difficulty])
@@ -43,7 +45,7 @@ const QuizPage = (props: IQuiz) => {
   return (
     <div className="w-full min-h-screen flex flex-col items-center p-5 text-center font-inter gap-y-3">
     <div className="w-full max-w-[30rem] flex flex-col gap-y-4">
-     <Card className="border-0 shadow-none">
+     <Card>
      <CardHeader className="gap-y-2">
       <CardTitle className="text-2xl font-extrabold">{title ?? "No title found"}</CardTitle>
        <CardDescription className="flex gap-x-2 justify-center">
@@ -61,6 +63,10 @@ const QuizPage = (props: IQuiz) => {
          </Badge>
        </CardDescription>
       </CardHeader>
+      <CardFooter className="bg-purple-500 dark:bg-purple-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
+        <span className="font-medium text-xs">AI Prompt</span>
+        <span className="text-purple-300 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
+      </CardFooter>
      </Card>
      {questions?.map((obj: IQuestions, idx: number) => 
        <Card key={idx} className="shadow-sm dark:bg-slate-900/80">

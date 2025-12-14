@@ -6,6 +6,7 @@ const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
   difficulty: "Beginner",
   quizType: "Mixed",
+  userPrompt: "Create an intermediate-level MERN STACK quiz with 10 questions (5 multiple-choice, 5 identification). Assess knowledge on MongoDB, Express.js, React.js, and Node.js. Include answers and explanations.", 
   questions: [
     // ===== Identification / Enumeration (No options) =====
     {
@@ -73,7 +74,7 @@ const mockQuiz = {
       question: "Which file is required to run a Node.js project?",
       options: ["index.html", "package.json", "tsconfig.json", "vite.config.ts"],
       correctAns: "package.json",
-      userAns: ""
+      userAns: "", 
     }
   ]
 };
