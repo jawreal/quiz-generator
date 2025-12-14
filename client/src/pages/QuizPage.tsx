@@ -64,7 +64,7 @@ const QuizPage = (props: IQuiz) => {
        </CardDescription>
       </CardHeader>
       <CardFooter className="bg-purple-500 dark:bg-purple-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
-        <span className="font-medium text-xs">AI Prompt</span>
+        <span className="font-medium text-xs">Your AI Prompt</span>
         <span className="text-purple-300 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import type { Dispatch, SetStateAction } from 'react';
 import { useMemo, useCallback, memo } from 'react';
-import type { QuizData } from '@/components/custom/GenerateQuiz';
+import type { QuizData } from '@/components/custom/CreateQuizDialog';
 
 interface ICustomDropdown {
   title: string;

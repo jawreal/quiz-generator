@@ -1,6 +1,6 @@
-//import GenerateQuiz from "@/components/custom/GenerateQuiz";
+import GenerateQuiz from "@/components/custom/GenerateQuiz";
 //import MainLayout from "@/layouts/MainLayout";
-import QuizPage from "@/pages/QuizPage";
+//import QuizPage from "@/pages/QuizPage";
 
 const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
@@ -84,7 +84,7 @@ const App = () => {
     <div>
     {/*<GenerateQuiz />*/} 
     {/*<MainLayout />*/} 
-    <QuizPage {...mockQuiz} />
+    <GenerateQuiz />
     {/*<QuizPage {...mockQuiz} />*/}
     </div>)
 }
