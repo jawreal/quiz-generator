@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Fragment, useMemo } from "react";
-import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons"
+import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
+//import ScoreChart from "@/components/custom/ScoreChart";
 
 interface IQuestions {
   question: string;
@@ -29,6 +30,7 @@ interface IQuiz {
   difficulty: string;
   quizType: string;
   userPrompt: string;
+  score: number; 
 }
 
 
@@ -64,12 +66,12 @@ const QuizPage = (props: IQuiz) => {
        </CardDescription>
       </CardHeader>
       <CardFooter className="bg-purple-500 dark:bg-purple-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
-        <span className="font-medium text-xs">Your AI Prompt</span>
+        <span className="font-medium text-xs text-purple-50">AI Prompt</span>
         <span className="text-purple-300 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
      {questions?.map((obj: IQuestions, idx: number) => 
-       <Card key={idx} className="shadow-sm dark:bg-slate-900/80">
+       <Card key={idx} className="shadow-sm">
        <CardContent className="text-left py-5 flex flex-col gap-y-4">
        <span>{obj?.question ?? "No question found"}</span>
         {obj?.options?.length && obj?.options?.length > 0 ?
@@ -82,9 +84,10 @@ const QuizPage = (props: IQuiz) => {
          </Label>
        </Fragment>)}
        </RadioGroup>) : 
-       <Input type="text" className="border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-slate-800 px-0 focus:border-purple-500" />}
+       <Input disabled={true} value="Apple in the tree" type="text" className="border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-slate-800 px-0 focus:border-purple-500" />}
        </CardContent>
      </Card>)}
+     {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="ml-auto">
       <Button variant="purple" className="ml-auto active:scale-95">Submit</Button>

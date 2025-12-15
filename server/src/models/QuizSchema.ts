@@ -13,6 +13,7 @@ interface IQuizSchema {
    difficulty: string;
    quizType: string;
    userPrompt: string;
+   score: number;
 }
 
 const QuizSchema = new Schema<IQuizSchema>({
@@ -30,6 +31,7 @@ const QuizSchema = new Schema<IQuizSchema>({
   difficulty: { type: String, required: true }, 
   quizType:  { type: String, required: true },
   userPrompt:  { type: String, required: true },
+  score:  { type: Number, required: true },
 });
 
 const QuizModel = model<IQuizSchema>("QuizModel", QuizSchema);

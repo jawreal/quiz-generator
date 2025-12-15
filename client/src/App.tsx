@@ -1,11 +1,12 @@
-import GenerateQuiz from "@/components/custom/GenerateQuiz";
+//import GenerateQuiz from "@/components/custom/GenerateQuiz";
 //import MainLayout from "@/layouts/MainLayout";
-//import QuizPage from "@/pages/QuizPage";
+import QuizPage from "@/pages/QuizPage";
 
 const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
   difficulty: "Beginner",
   quizType: "Mixed",
+  score: 7,
   userPrompt: "Create an intermediate-level MERN STACK quiz with 10 questions (5 multiple-choice, 5 identification). Assess knowledge on MongoDB, Express.js, React.js, and Node.js. Include answers and explanations.", 
   questions: [
     // ===== Identification / Enumeration (No options) =====
@@ -84,7 +85,7 @@ const App = () => {
     <div>
     {/*<GenerateQuiz />*/} 
     {/*<MainLayout />*/} 
-    <GenerateQuiz />
+    <QuizPage {...mockQuiz} />
     {/*<QuizPage {...mockQuiz} />*/}
     </div>)
 }
