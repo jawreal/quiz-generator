@@ -20,7 +20,7 @@ const mockQuiz = {
       questionNumber: 2,
       question: "What is the main purpose of CSS?",
       correctAns: "To style and layout web pages",
-      userAns: ""
+      userAns: "Hahha"
     },
     {
       questionNumber: 3,
@@ -32,7 +32,7 @@ const mockQuiz = {
       questionNumber: 4,
       question: "What HTTP method is commonly used to update existing data?",
       correctAns: "PUT",
-      userAns: ""
+      userAns: "PUT"
     },
     {
       questionNumber: 5,
@@ -47,7 +47,7 @@ const mockQuiz = {
       question: "Which hook is used for managing state in React?",
       options: ["useEffect", "useState", "useRef", "useMemo"],
       correctAns: "useState",
-      userAns: ""
+      userAns: "useState"
     },
     {
       questionNumber: 7,
@@ -61,7 +61,7 @@ const mockQuiz = {
       question: "Which HTTP status code means 'Not Found'?",
       options: ["200", "201", "404", "500"],
       correctAns: "404",
-      userAns: ""
+      userAns: "404"
     },
     {
       questionNumber: 9,

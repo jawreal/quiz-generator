@@ -14,6 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Fragment, useMemo } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 //import ScoreChart from "@/components/custom/ScoreChart";
+import { X, Check } from "lucide-react";
 
 interface IQuestions {
   question: string;
@@ -66,15 +67,21 @@ const QuizPage = (props: IQuiz) => {
        </CardDescription>
       </CardHeader>
       <CardFooter className="bg-purple-500 dark:bg-purple-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
-        <span className="font-medium text-xs text-purple-50">AI Prompt</span>
-        <span className="text-purple-300 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
+        <span className="font-medium text-xs text-purple-300">AI Prompt</span>
+        <span className="text-purple-50 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
-     {questions?.map((obj: IQuestions, idx: number) => 
-       <Card key={idx} className="shadow-sm">
-       <CardContent className="text-left py-5 flex flex-col gap-y-4">
-       <span>{obj?.question ?? "No question found"}</span>
-        {obj?.options?.length && obj?.options?.length > 0 ?
+     {questions?.map((obj: IQuestions, idx: number) => {
+       const isCorrect: boolean = obj?.userAns === obj?.correctAns;
+       return (<Card key={idx} className="shadow-sm">
+       <CardContent className="text-left py-5 flex flex-col gap-y-4 relative">
+       <div className="absolute right-4 top-5">
+       {obj?.userAns && isCorrect && <Check className="text-green-500 flex-shrink-0"/>}
+       {obj?.userAns && !isCorrect && <X className="text-red-500" />} 
+       </div>
+       <span className={`${(obj?.userAns && isCorrect) ? "text-green-500" : (obj?.userAns && !isCorrect) ? "text-red-500" : "" } pr-6`}>
+         {obj?.question ?? "No question found"}</span>
+         {obj?.options?.length && obj?.options?.length > 0 ?
          (<RadioGroup className="space-y-2">
          {obj?.options?.map((option: string, idx: number) => <Fragment key={idx}>
          <Label htmlFor={option} className="flex items-center gap-x-2 font-normal">
@@ -84,9 +91,14 @@ const QuizPage = (props: IQuiz) => {
          </Label>
        </Fragment>)}
        </RadioGroup>) : 
-       <Input disabled={true} value="Apple in the tree" type="text" className="border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-slate-800 px-0 focus:border-purple-500" />}
+       <Input disabled={true} value="Apple in the tree" type="text" className="border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-slate-800 px-0 focus:border-purple-500 text-sm" />}
        </CardContent>
-     </Card>)}
+       <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
+        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Correct answer</span>
+        <span className="text-sm">{obj?.correctAns ?? "No correct answer found"}</span>
+       </CardFooter>
+     </Card>)
+     })}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="ml-auto">
