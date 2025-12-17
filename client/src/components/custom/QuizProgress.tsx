@@ -10,11 +10,13 @@ interface IProps {
 
 const QuizProgress = (props: IProps) => {
   const { currentQuestions, totalQuestions } = props;
-  const progressValue: number = useMemo(() => (currentQuestions / totalQuestions ) * 100, [currentQuestions, totalQuestions]);
+  const progressValue: number = useMemo(() => (currentQuestions / totalQuestions ) * 100, [currentQuestions, totalQuestions]); // progress value converted to percent
+  
   const { ref: progressRef , inView: progressInView } = useInView({
     triggerOnce: false, 
     threshold: 0.1,
-  })
+  }) // intersection observer for progress
+  
   return (
      <Fragment>
        <div ref={progressRef} className="h-px" /> 
