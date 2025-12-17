@@ -11,10 +11,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import QuizProgress from "@/components/custom/QuizProgress";
 import { Fragment, useMemo } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 //import ScoreChart from "@/components/custom/ScoreChart";
-import { X, Check } from "lucide-react";
+import { X, Check, MoveRight } from "lucide-react";
 
 interface IQuestions {
   question: string;
@@ -47,7 +48,7 @@ const QuizPage = (props: IQuiz) => {
   
   return (
     <div className="w-full min-h-screen flex flex-col items-center p-5 text-center font-inter gap-y-3">
-    <div className="w-full max-w-[30rem] flex flex-col gap-y-4">
+    <div className="w-full max-w-[30rem] flex flex-col">
      <Card>
      <CardHeader className="gap-y-2">
       <CardTitle className="text-2xl font-extrabold">{title ?? "No title found"}</CardTitle>
@@ -71,6 +72,8 @@ const QuizPage = (props: IQuiz) => {
         <span className="text-purple-50 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
+     <QuizProgress currentQuestions={questions?.length ?? 0} totalQuestions={10} />
+     <div className="w-full flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) => {
        const isCorrect: boolean = obj?.userAns === obj?.correctAns;
        return (
@@ -106,9 +109,12 @@ const QuizPage = (props: IQuiz) => {
      })}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
-    <div className="w-full flex gap-x-2">
-      <Button variant="purple" className="active:scale-95">Prev</Button>
-      <Button variant="purple" className="ml-auto active:scale-95">Next</Button>
+    <div className="w-full md:w-auto ml-auto mb-2 mt-4">
+      <Button variant="purple" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11">
+        <span>Next</span>
+        <MoveRight />
+      </Button>
+    </div> 
     </div>
     </div>) 
 }
