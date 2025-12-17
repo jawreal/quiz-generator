@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const QuizQuestion = ({ obj, score }: IProps) => {
-  const isCorrect: boolean = obj?.userAns === obj?.correctAns; 
+  const isCorrect: boolean = obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(); 
   return (
     <div>
      <Card className="shadow-sm">
@@ -26,8 +26,8 @@ const QuizQuestion = ({ obj, score }: IProps) => {
          </span>
          {!obj?.options &&
          <div className="w-full relative">
-          <Input value="Apple in the tree" type="text" className="border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-red-500 px-0 dark:text-red-500 focus:border-purple-500 text-sm" /> 
-          <X className="absolute right-0 top-2 text-red-500" size ={20}/>
+          <Input disabled={true} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-slate-300 dark:border-slate-800 px-0 focus:border-purple-500 text-sm"} /> 
+          {isCorrect && score ? <Check className="absolute right-0 top-2 text-green-500" size ={20}/> : <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
          </div>} 
        </CardContent>
       {!isCorrect && score && <CardFooter className="py-4 border-t flex-col items-start gap-y-2">

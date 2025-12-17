@@ -10,7 +10,7 @@ const mockQuiz = {
   userPrompt: "Create an intermediate-level MERN STACK quiz with 10 questions (5 multiple-choice, 5 identification). Assess knowledge on MongoDB, Express.js, React.js, and Node.js. Include answers and explanations.", 
   questions: [
     // ===== Identification / Enumeration (No options) =====
-    /*{
+    {
       questionNumber: 1,
       question: "What does HTML stand for?",
       correctAns: "HyperText Markup Language",
@@ -39,15 +39,15 @@ const mockQuiz = {
       question: "What database is commonly used with the MERN stack?",
       correctAns: "MongoDB",
       userAns: ""
-    },*/
+    },
     // ===== Multiple Choice (With options) =====
-    {
+   /* {
       questionNumber: 6,
       question: "Which hook is used for managing state in React?",
       options: ["useEffect", "useState", "useRef", "useMemo"],
       correctAns: "useState",
       userAns: "useStatse"
-    },
+    }, 
     {
       questionNumber: 7,
       question: "Which of the following is a JavaScript framework?",
@@ -75,7 +75,7 @@ const mockQuiz = {
       options: ["index.html", "package.json", "tsconfig.json", "vite.config.ts"],
       correctAns: "package.json",
       userAns: "", 
-    }
+    }*/
   ]
 };
 
