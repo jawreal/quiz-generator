@@ -34,7 +34,7 @@ interface IQuiz {
 
 
 const QuizPage = (props: IQuiz) => {
-  const { title, questions, difficulty, quizType, userPrompt } = props;
+  const { title, questions, difficulty, quizType, userPrompt, score } = props;
   const DifficultyBadgeIcon = useMemo(() => {
    return difficulty ? difficultyIcons[difficulty.toLowerCase() as string] : undefined
   }, [difficulty])
@@ -72,7 +72,7 @@ const QuizPage = (props: IQuiz) => {
      <QuizProgress currentQuestions={questions?.length ?? 0} totalQuestions={10} />
      <div className="w-full flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
-       <QuizQuestion key={idx} obj={obj ?? []} />)}
+       <QuizQuestion key={idx} obj={obj ?? []} score={score} />)}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">

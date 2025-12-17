@@ -12,9 +12,10 @@ import { X, Check } from "lucide-react";
 
 interface IProps {
   obj: IQuestions;
+  score: number | null | undefined;
 }
 
-const QuizQuestion = ({ obj }: IProps) => {
+const QuizQuestion = ({ obj, score }: IProps) => {
   const isCorrect: boolean = obj?.userAns === obj?.correctAns; 
   return (
     <div>
@@ -29,10 +30,10 @@ const QuizQuestion = ({ obj }: IProps) => {
           <X className="absolute right-0 top-2 text-red-500" size ={20}/>
          </div>} 
        </CardContent>
-       <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
+      {!isCorrect && score && <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
         <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Correct answer</span>
         <span className="text-sm">{obj?.correctAns ?? "No correct answer found"}</span>
-       </CardFooter>
+       </CardFooter>}
       </Card>
       {obj?.options?.length && obj?.options?.length > 0 &&
          (<RadioGroup className="space-y-2 mt-4 w-full">
