@@ -1,10 +1,8 @@
-import express, { type Request, type Response } from "express" 
-const app = express();
+import dotenv from "dotenv";
+dotenv.config();
+import app from "@/App";
+const PORT = process.env.PORT || 3000;
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Hello world"})
-})
-
-app.listen(3000, () => {
-  console.log("Listening in PORT 3000")
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
+});
