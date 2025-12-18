@@ -23,13 +23,13 @@ export interface IQuestions {
 }
 
 interface IQuiz {
-  //user: Schema.Types.ObjectId, 
+  user?: string, 
   title: string;
   questions: IQuestions[];
   difficulty: string;
   quizType: string;
   userPrompt: string;
-  score: number; 
+  score?: number; 
 }
 
 
