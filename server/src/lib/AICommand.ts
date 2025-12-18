@@ -4,6 +4,7 @@ STRICT OUTPUT RULES:
 - You must respond with a single valid JSON object only.
 - Do not include explanations, comments, markdown, code fences, or any text outside the JSON. 
 - Do not include trailing commas. 
+- Make sure the JSON is not broken, or incomplete. 
 - If you cannot comply, return an empty object: {}
 
 OBJECT FORMAT:

@@ -1,8 +1,8 @@
-//import GenerateQuiz from "@/components/custom/GenerateQuiz";
+import GenerateQuiz from "@/components/custom/GenerateQuiz";
 //import MainLayout from "@/layouts/MainLayout";
-import QuizPage from "@/pages/QuizPage";
+//import QuizPage from "@/pages/QuizPage";
 
-const mockQuiz = {
+/*const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
   difficulty: "Beginner",
   quizType: "Mixed",
@@ -75,16 +75,16 @@ const mockQuiz = {
       options: ["index.html", "package.json", "tsconfig.json", "vite.config.ts"],
       correctAns: "package.json",
       userAns: "", 
-    }*/
+    }
   ]
-};
+};*/
 
 const App = () => {
   return (
     <div>
     {/*<GenerateQuiz />*/} 
     {/*<MainLayout />*/} 
-    <QuizPage {...mockQuiz} />
+    <GenerateQuiz />
     {/*<QuizPage {...mockQuiz} />*/}
     </div>)
 }

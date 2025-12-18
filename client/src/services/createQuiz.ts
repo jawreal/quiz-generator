@@ -4,30 +4,31 @@ interface IProps {
   userPrompt: string;
 };
 
-interface IResult {
+/*interface IResult {
   success: false;
   quiz_id?:  string;
-}
+}*/
 
-const FetchService = async (props: IProps): Promise<IResult> => {
+const CreateQuiz = async (props: IProps): Promise<void>  => {
   try{
-    const response = await("/api/prompt/generate-quiz", {
+    const response = await fetch("/api/prompt/generate-quiz", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"
       }, 
+      body: JSON.stringify(props), 
       credentials: "include"
     });
     if(!response.ok){
       throw new Error("Failed to generate quiz");
     }
-    const quiz_id = await result.json();
+    const quiz_id = await response.json();
     console.log(quiz_id)
     //return { success: true, quiz_id };
   }catch(error){
     console.error(error)
-    return { success: false } 
+    //return { success: false } 
   }
 };
 
-export default FetchService;
+export default CreateQuiz;

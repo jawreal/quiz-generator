@@ -11,6 +11,9 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import CustomDropdown from '@/components/custom/CustomDropdown'
 import { useState } from 'react';
+import { useForm } from "react-hook-form";
+//import CreateQuiz from "@/services/createQuiz";
+import { RefreshCw } from "lucide-react";
 
 interface IProps {
   open: boolean;
@@ -27,15 +30,21 @@ const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const CreateQuizDialog = (props: IProps) => {
   const { open, onOpenChange } = props;
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm();
   const [quizData, setQuizData] = useState<QuizData>({
     difficulty: "beginner", 
     quizType: "multiple choice", 
   });
+  const onSubmit = async (data: { userPrompt: string }) => {
+    //const input = { ...data, ...quizData };
+    //await CreateQuiz(input)
+    onOpenChange();
+  }
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange} >
-      <form>
-        <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4"> 
           <DialogHeader className="text-left">
             <DialogTitle>Generate Quiz</DialogTitle>
             <DialogDescription>
@@ -47,16 +56,19 @@ const CreateQuizDialog = (props: IProps) => {
            <CustomDropdown title="quizType" options={quizTypeOptions} state={quizData} setState={setQuizData} /> 
          </div>
          <div className="w-full relative">
-         <Textarea placeholder="Create your AI prompt" className="rounded-lg" rows={5}/>  
+         <Textarea {...register("userPrompt")} placeholder="Create your AI prompt" className="rounded-lg" rows={5}/>  
          </div>
           <DialogFooter className="flex-row gap-x-2">
             <DialogClose asChild>
               <Button variant="outline" className="flex-1">Cancel</Button>
             </DialogClose>
-            <Button variant="purple" type="submit" className="flex-1">Generate</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+            <Button disabled={isSubmitting} variant="purple" type="submit" className="flex-1 transition-all active:scale-95">
+             {isSubmitting && <RefreshCw className="animate-spin" />}
+             {isSubmitting ? "Please wait..." : "Generate"}
+            </Button>
+            </DialogFooter>
+         </form>
+      </DialogContent>
     </Dialog>
   )
 }

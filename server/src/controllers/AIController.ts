@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import type { NextFunction, Request, Response } from "express";
 dotenv.config();
 import { AI_COMMAND } from "@/lib/AICommand";
+import { matchedData, validationResult } from "express-validator";
 
 const cerebras = new Cerebras({
   apiKey: process.env.CEREBRAS_API_KEY,
@@ -17,12 +18,14 @@ interface CerebrasChatResponse {
   }[];
 };
 
-const AIController = async (_req: Request, res: Response, next: NextFunction) => {
+const AIController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    //const { difficulty = "Intermediate", quizType = "Mixed", userPrompt = "Create a quiz about MERN Stack, 6 questions, 3 options only" } = req.body;
-    const difficulty = "Intermediate";
-    const quizType = "Mixed";
-    const userPrompt = "Create a quiz about MERN Stack, 6 questions, 3 options only"; // mock up command 
+    const result = validationResult(req);
+    if(!result.isEmpty()){
+      console.log(result)
+      throw new Error("Fields are invalid");
+    }
+    const { difficulty, quizType, userPrompt } = matchedData(req) as Record<string, string>; 
     const completion = (await cerebras.chat.completions.create({
         messages: [
           {
@@ -34,12 +37,13 @@ const AIController = async (_req: Request, res: Response, next: NextFunction) =>
           `},
         ],
         model: "llama3.1-8b",
-        max_completion_tokens: 500,
+        max_completion_tokens: 3000,
         temperature: 0.7,
       })) as CerebrasChatResponse;
     const output = completion.choices[0].message.content;
-    //const finalOutput = JSON.parse(output);
-    res.json({ reply: output });
+    const finalOutput = JSON.parse(output);
+    console.log(finalOutput)
+    res.status(201).json({ reply: finalOutput });
   } catch (error) {
     next(error);
   }
