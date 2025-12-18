@@ -22,7 +22,8 @@ const FetchService = async (props: IProps): Promise<IResult> => {
       throw new Error("Failed to generate quiz");
     }
     const quiz_id = await result.json();
-    return { success: true, quiz_id };
+    console.log(quiz_id)
+    //return { success: true, quiz_id };
   }catch(error){
     console.error(error)
     return { success: false } 
