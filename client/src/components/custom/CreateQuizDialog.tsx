@@ -11,7 +11,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import CustomDropdown from '@/components/custom/CustomDropdown'
 import { useState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 //import CreateQuiz from "@/services/createQuiz";
 import { RefreshCw } from "lucide-react";
 
@@ -25,17 +25,21 @@ export interface QuizData {
   quizType: string;
 }
 
+interface IUserPrompt {
+  userPrompt: string;
+};
+
 const difficultyOptions: string[] = ["beginner", "intermediate", "advanced", "expert"]
 const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const CreateQuizDialog = (props: IProps) => {
   const { open, onOpenChange } = props;
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm();
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<IUserPrompt>();
   const [quizData, setQuizData] = useState<QuizData>({
     difficulty: "beginner", 
     quizType: "multiple choice", 
   });
-  const onSubmit = async (data: { userPrompt: string }) => {
+  const onSubmit = async (data: SubmitHandler<IUserPrompt>) => {
     //const input = { ...data, ...quizData };
     //await CreateQuiz(input)
     onOpenChange();

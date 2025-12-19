@@ -1,16 +1,17 @@
 import { Schema, model, type Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-interface IUser {
-  fullName?: string;
+interface IUser extends Document {
+  fullName: string;
   username: string;
   password: string;
   createdAt?: string;
   updatedAt: string;
+  validatePassword: (plainPassword: string, username: string) => Promise<boolean>;
 }
 
 const UserSchema = new Schema<IUser>({
-  fullName: { type: String, required: false }, 
+  fullName: { type: String, required: true }, 
   username: { type: String, required: true, unique: true }, 
   password: { type: String, required: true }, 
 }, {
@@ -19,10 +20,10 @@ const UserSchema = new Schema<IUser>({
 
 UserSchema.methods.validatePassword = async function <T extends string>(
   plainPassword: T,
-  userId: T
+  username: T
 ): Promise<boolean> {
   const result = await bcrypt.compare(plainPassword, this.password);
-  return result && userId === this.userId;
+  return result && username === this.username;
 };
 
 UserSchema.pre("updateOne", async function (next) {

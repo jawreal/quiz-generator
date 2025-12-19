@@ -4,8 +4,13 @@ import AIRouter from "@/routers/AIRouter";
 import morgan from "morgan";
 import express from "express";
 import cors from "cors";
-const app = express();
-import errorHandler from "@/middlewares/ErrorHandler"
+import errorHandler from "@/middlewares/ErrorHandler";
+import passport from "passport";
+import session from "express-session";
+import { store } from "@/config/DbConfig";
+import "@/config/PassportStrat";
+
+const app = express(); 
 const isDeployed: boolean = process.env.NODE_ENV === "production";
 
 app.use(express.json());
@@ -20,7 +25,24 @@ if (!isDeployed) {
     })
   );
 };
-
+app.use(
+  session({
+    secret: process.env.PASSPORT_SECRET ?? "",
+    resave: false,
+    rolling: false,
+    saveUninitialized: false,
+    store: store,
+    proxy: true,
+    cookie: {
+      httpOnly: isDeployed, //must be false in production
+      secure: isDeployed, //HTTPS only in production
+      sameSite: isDeployed ? "strict" : "lax", //strict only in production
+      maxAge: 1000 * 60 * 60 * 12,
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/api/prompt", AIRouter)
 app.use(errorHandler);
 
