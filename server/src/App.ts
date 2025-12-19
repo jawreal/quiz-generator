@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import AIRouter from "@/routers/AIRouter";
+import AuthRouter from "@/routers/AuthRouter";
 import morgan from "morgan";
 import express from "express";
 import cors from "cors";
@@ -43,7 +44,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api/prompt", AIRouter)
+app.use("/api/prompt", AIRouter);
+app.use("/api/auth", AuthRouter);
 app.use(errorHandler);
 
 export default app;
