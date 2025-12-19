@@ -63,7 +63,7 @@ const SignUpForm = ({
               <Input
                 id="password"
                 type="password"
-                placeholder="●●●●●●●●●●"
+                placeholder="••••••••••"
                 className="h-11"
               />
             </div>

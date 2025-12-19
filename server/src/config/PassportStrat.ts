@@ -36,7 +36,8 @@ passport.deserializeUser(async (id: Express.User, done) => {
   try {
     const user = await UserModel.findById(id, {
       username: 1,
-      fullName: 1,
+      firstName: 1,
+      lastName: 1,
       createdAt: 1,
       updatedAt: 1,
     });

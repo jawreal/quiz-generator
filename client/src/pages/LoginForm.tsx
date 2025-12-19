@@ -43,7 +43,7 @@ const LoginForm = ({
               <Input
                 id="password"
                 type="password"
-                placeholder="●●●●●●●●●●"
+                placeholder="••••••••••"
               />
             </div>
             <Button type="submit" variant="purple" className="w-full h-11">
