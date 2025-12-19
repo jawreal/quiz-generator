@@ -39,7 +39,7 @@ const CreateQuizDialog = (props: IProps) => {
     difficulty: "beginner", 
     quizType: "multiple choice", 
   });
-  const onSubmit = async (data: SubmitHandler<IUserPrompt>) => {
+  const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
     //const input = { ...data, ...quizData };
     //await CreateQuiz(input)
     onOpenChange();

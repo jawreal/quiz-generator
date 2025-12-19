@@ -17,7 +17,7 @@ interface IQuizSchema {
 }
 
 const QuizSchema = new Schema<IQuizSchema>({
-  user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+  user: { type: Schema.Types.ObjectId, required: true, ref: "UserModel" },
   title: { type: String, required: true },
   questions: [
     {

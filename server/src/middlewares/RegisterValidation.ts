@@ -6,7 +6,7 @@ import { UserModel } from "@/models/UserSchema";
 const CheckIfExist = async (req: Request, res: Response, next: NextFunction) => {
   try{
     const { username } = req.body;
-    const isExist = await UserModel.find({ username: username as string });
+    const isExist = await UserModel.findOne({ username: username as string });
     if(isExist){
       console.log("User already exist!")
       return res.status(400).json({ message: "User already exist!"})

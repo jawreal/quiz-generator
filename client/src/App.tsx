@@ -1,5 +1,5 @@
-import GenerateQuiz from "@/components/custom/GenerateQuiz";
-import LoginForm from "@/pages/LoginForm";
+//import GenerateQuiz from "@/components/custom/GenerateQuiz";
+//import LoginForm from "@/pages/LoginForm";
 import SignUpForm from "@/pages/SignUpForm";
 //import MainLayout from "@/layouts/MainLayout";
 //import QuizPage from "@/pages/QuizPage";

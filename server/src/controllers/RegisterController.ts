@@ -24,7 +24,7 @@ const RegisterController = async (req: Request, res: Response, next: NextFunctio
       return;
     }
     // create account if user doesn't exist 
-    const newUser = new UserModel(userInfo);
+    const newUser = await UserModel.create(userInfo);
     if (newUser) {
       // authenticate user after registering
       req.login(newUser, (err) => {

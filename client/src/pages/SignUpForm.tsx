@@ -1,15 +1,23 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
+import RegisterAccount, { type UserInfo } from "@/services/registerAccount";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 const SignUpForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
+  const { register, handleSubmit } = useForm<UserInfo>();
+  
+  const onSubmit: SubmitHandler<UserInfo> = async (data) => {
+    const result = await RegisterAccount(data);
+    console.log(result);
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <a
@@ -37,6 +45,7 @@ const SignUpForm = ({
                   type="text"
                   placeholder="John"
                   className="h-11"
+                  {...register("firstName")}
                  />
                </div> 
                <div className="grid gap-2">
@@ -46,6 +55,7 @@ const SignUpForm = ({
                   type="text"
                   placeholder="Doe"
                   className="h-11"
+                  {...register("lastName")}
                  />
                </div> 
             </div> 
@@ -56,6 +66,7 @@ const SignUpForm = ({
                 type="text"
                 placeholder="johnDoe.23"
                 className="h-11"
+                {...register("username")}
               />
             </div>
             <div className="grid gap-2">
@@ -65,6 +76,7 @@ const SignUpForm = ({
                 type="password"
                 placeholder="••••••••••"
                 className="h-11"
+                {...register("password")}
               />
             </div>
             <Button type="submit" variant="purple" className="w-full h-11">
