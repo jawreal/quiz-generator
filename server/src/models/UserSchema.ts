@@ -1,15 +1,20 @@
 import { Schema, model, type Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-interface IUser extends Document {
+export interface UserInfo {
   firstName: string;
   lastName: string;
   username: string;
   password: string;
+}
+
+interface IUser extends UserInfo, Document {
   createdAt?: string;
   updatedAt: string;
   validatePassword: (plainPassword: string, username: string) => Promise<boolean>;
 }
+
+
 
 const UserSchema = new Schema<IUser>({
   firstName: { type: String, required: true }, 

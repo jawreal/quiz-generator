@@ -1,14 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
-import { UserModel } from "@/models/UserSchema";
+import { UserModel, type UserInfo } from "@/models/UserSchema";
 import { validationResult, matchedData } from "express-validator";
 import { CheckIfExist } from "@/middlewares/RegisterValidation";
-
-type UserInfo = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-} // create a type for user info
 
 const RegisterController = async (req: Request, res: Response, next: NextFunction) => {
   try{
