@@ -1,8 +1,12 @@
-export type UserInfo = {
+export type UserAuth = {
+  username: string;
+  password: string; 
+}
+
+
+export type UserInfo = UserAuth & {
   firstName: string;
   lastName: string;
-  username: string;
-  password: string;
 } 
 
 const RegisterAccount = async (userInfo: UserInfo) => {

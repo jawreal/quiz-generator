@@ -1,6 +1,6 @@
 //import GenerateQuiz from "@/components/custom/GenerateQuiz";
-//import LoginForm from "@/pages/LoginForm";
-import SignUpForm from "@/pages/SignUpForm";
+import LoginForm from "@/pages/LoginForm";
+//import SignUpForm from "@/pages/SignUpForm";
 //import MainLayout from "@/layouts/MainLayout";
 //import QuizPage from "@/pages/QuizPage";
 
@@ -87,8 +87,8 @@ const App = () => {
     {/*<GenerateQuiz />*/} 
     {/*<MainLayout />*/} 
     <div className="w-full flex min-h-screen justify-center items-center px-5">
-      {/*<LoginForm className="w-full md:max-w-[25rem]"/>*/}
-      <SignUpForm className="w-full md:max-w-[25rem]"/>
+      <LoginForm className="w-full md:max-w-[25rem]"/>
+      {/*<SignUpForm className="w-full md:max-w-[25rem]"/>*/}
     </div>
     {/*<QuizPage {...mockQuiz} />*/}
     </div>)

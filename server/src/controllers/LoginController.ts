@@ -13,6 +13,7 @@ const LoginController = (req: Request, res: Response, next: NextFunction) => {
       }
       req.login(user, async (err) => {
         if (err) return res.status(500).json({ message: "Login error" });
+        console.log(req?.user?._id)
         return res.status(200).json({
           message: "Signed in successfully",
         });
