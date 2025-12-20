@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import CustomDropdown from '@/components/custom/CustomDropdown'
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from "react-hook-form";
-//import CreateQuiz from "@/services/createQuiz";
+import CreateQuiz from "@/services/createQuiz";
 import { RefreshCw } from "lucide-react";
 
 interface IProps {
@@ -40,8 +40,8 @@ const CreateQuizDialog = (props: IProps) => {
     quizType: "multiple choice", 
   });
   const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
-    //const input = { ...data, ...quizData };
-    //await CreateQuiz(input)
+    const input = { ...data, ...quizData };
+    await CreateQuiz(input)
     onOpenChange();
   }
   

@@ -13,7 +13,7 @@ interface IQuizSchema {
    difficulty: string;
    quizType: string;
    userPrompt: string;
-   score: number;
+   score?: number;
 }
 
 const QuizSchema = new Schema<IQuizSchema>({
@@ -23,15 +23,15 @@ const QuizSchema = new Schema<IQuizSchema>({
     {
       question: { type: String, required: true },
       questionNumber: { type: Number, required: true },
-      options: [{ type: String, requfalse false }],
-      userAns: { type: String, required: true },
+      options: [{ type: String, required: false }],
+      userAns: { type: String, required: false },
       correctAns: { type: String, required: false },
     }
   ], 
   difficulty: { type: String, required: true }, 
   quizType:  { type: String, required: true },
   userPrompt:  { type: String, required: true },
-  score:  { type: Number, required: true },
+  score:  { type: Number, required: false },
 });
 
 const QuizModel = model<IQuizSchema>("QuizModel", QuizSchema);
