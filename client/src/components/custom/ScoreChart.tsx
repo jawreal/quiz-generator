@@ -103,7 +103,7 @@ const ScoreChart = (props: IProps) => {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <Button variant="purple" >Regenerate Quiz</Button>
+        <Button variant="violet" >Regenerate Quiz</Button>
       </CardFooter>
     </Card>
   )

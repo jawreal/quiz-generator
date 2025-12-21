@@ -64,7 +64,7 @@ const LoginForm = ({
                 className="h-11" 
               />
             </div>
-            <Button type="submit" variant="purple" className="w-full h-11">
+            <Button type="submit" variant="violet" className="w-full h-11">
               Login
             </Button>
           </div>

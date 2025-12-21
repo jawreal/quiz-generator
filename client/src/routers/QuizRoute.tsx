@@ -1,12 +1,8 @@
-import GenerateQuiz from "@/components/custom/GenerateQuiz";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import QuizRoute from "@/routers/QuizRoute";
-//import LoginForm from "@/pages/LoginForm";
-//import SignUpForm from "@/pages/SignUpForm";
-//import MainLayout from "@/layouts/MainLayout";
-//import QuizPage from "@/pages/QuizPage";
+import MainLayout from "@/layouts/MainLayout";
+import QuizPage from "@/pages/QuizPage";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-/*const mockQuiz = {
+const mockQuiz = {
   title: "Web Development Fundamentals Quiz",
   difficulty: "Beginner",
   quizType: "Mixed",
@@ -14,7 +10,7 @@ import QuizRoute from "@/routers/QuizRoute";
   userPrompt: "Create an intermediate-level MERN STACK quiz with 10 questions (5 multiple-choice, 5 identification). Assess knowledge on MongoDB, Express.js, React.js, and Node.js. Include answers and explanations.", 
   questions: [
     // ===== Identification / Enumeration (No options) =====
-    {
+   /* {
       questionNumber: 1,
       question: "What does HTML stand for?",
       correctAns: "HyperText Markup Language",
@@ -43,9 +39,9 @@ import QuizRoute from "@/routers/QuizRoute";
       question: "What database is commonly used with the MERN stack?",
       correctAns: "MongoDB",
       userAns: ""
-    },
+    }, */
     // ===== Multiple Choice (With options) =====
-   /* {
+    {
       questionNumber: 6,
       question: "Which hook is used for managing state in React?",
       options: ["useEffect", "useState", "useRef", "useMemo"],
@@ -81,22 +77,20 @@ import QuizRoute from "@/routers/QuizRoute";
       userAns: "", 
     }
   ]
-};*/
+};
 
-const App = () => {
+const QuizRoute = () => {
   return (
-    <Router>
-    {/*<GenerateQuiz />*/}
-    {/*<MainLayout />*/} 
-    {/*<div className="w-full flex min-h-screen justify-center items-center px-5">
-      <LoginForm className="w-full md:max-w-[25rem]"/>
-      {/*<SignUpForm className="w-full md:max-w-[25rem]"/>
-    </div>*/}
-    {/*<QuizPage {...mockQuiz} />*/}
-      <Routes>
-       <Route path="/quiz/*" element={<QuizRoute />} />
-      </Routes>
-    </Router>)
-}
+  <Routes>
+     <Route path="/" element={<MainLayout />}>
+       <Route path="create/:quiz_id?" element={<QuizPage {...mockQuiz} />} />
+          <Route
+            path="*"
+            element={<Navigate to="/create/quiz" replace />}
+          />
+       </Route>
+    </Routes>
+  );
+};
 
-export default App;
+export default QuizRoute;

@@ -66,7 +66,7 @@ const CreateQuizDialog = (props: IProps) => {
             <DialogClose asChild>
               <Button variant="outline" className="flex-1">Cancel</Button>
             </DialogClose>
-            <Button disabled={isSubmitting} variant="purple" type="submit" className="flex-1 transition-all active:scale-95">
+            <Button disabled={isSubmitting} variant="violet" type="submit" className="flex-1 transition-all active:scale-95">
              {isSubmitting && <RefreshCw className="animate-spin" />}
              {isSubmitting ? "Please wait..." : "Generate"}
             </Button>

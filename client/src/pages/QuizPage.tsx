@@ -64,9 +64,9 @@ const QuizPage = (props: IQuiz) => {
          </Badge>
        </CardDescription>
       </CardHeader>
-      <CardFooter className="bg-purple-500 dark:bg-purple-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
-        <span className="font-medium text-xs text-purple-300">AI Prompt</span>
-        <span className="text-purple-50 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
+      <CardFooter className="bg-violet-500 dark:bg-violet-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
+        <span className="font-medium text-xs text-violet-300">AI Prompt</span>
+        <span className="text-violet-50 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
      <QuizProgress currentQuestions={questions?.length ?? 0} totalQuestions={10} />
@@ -76,7 +76,7 @@ const QuizPage = (props: IQuiz) => {
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">
-      <Button variant="purple" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11">
+      <Button variant="violet" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11">
         <span>Next</span>
         <MoveRight />
       </Button>

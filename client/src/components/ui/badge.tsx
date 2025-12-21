@@ -5,24 +5,24 @@ import { cn } from "@/lib/utils"
 
 const difficultyColors = {
   beginner:
-    "bg-sky-50 text-sky-700 dark:text-sky-200 border border-sky-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-sky-50 text-sky-700 dark:text-sky-200 border border-sky-100 dark:border-0 dark:bg-zinc-900/80",
   intermediate:
-    "bg-emerald-50 text-emerald-700 dark:text-emerald-200 border border-emerald-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-emerald-50 text-emerald-700 dark:text-emerald-200 border border-emerald-100 dark:border-0 dark:bg-zinc-900/80",
   advanced:
-    "bg-amber-50 text-amber-700 dark:text-amber-200 border border-amber-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-amber-50 text-amber-700 dark:text-amber-200 border border-amber-100 dark:border-0 dark:bg-zinc-900/80",
   expert:
-    "bg-rose-50 text-rose-700 dark:text-rose-200 border border-rose-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-rose-50 text-rose-700 dark:text-rose-200 border border-rose-100 dark:border-0 dark:bg-zinc-900/80",
 };
 
 const quizTypeColors = {
   "multiple choice":
-    "bg-indigo-50 text-indigo-700 dark:text-indigo-200 border border-indigo-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-indigo-50 text-indigo-700 dark:text-indigo-200 border border-indigo-100 dark:border-0 dark:bg-zinc-900/80",
   identification:
-    "bg-violet-50 text-violet-700 dark:text-violet-200 border border-violet-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-violet-50 text-violet-700 dark:text-violet-200 border border-violet-100 dark:border-0 dark:bg-zinc-900/80",
   enumeration:
-    "bg-pink-50 text-pink-700 dark:text-pink-200 border border-pink-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-pink-50 text-pink-700 dark:text-pink-200 border border-pink-100 dark:border-0 dark:bg-zinc-900/80",
   mixed:
-    "bg-teal-50 text-teal-700 dark:text-teal-200 border border-teal-100 dark:border-0 dark:bg-slate-900/80",
+    "bg-teal-50 text-teal-700 dark:text-teal-200 border border-teal-100 dark:border-0 dark:bg-zinc-900/80",
 }
 
 

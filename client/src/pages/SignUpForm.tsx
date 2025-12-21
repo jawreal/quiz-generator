@@ -79,7 +79,7 @@ const SignUpForm = ({
                 {...register("password")}
               />
             </div>
-            <Button type="submit" variant="purple" className="w-full h-11">
+            <Button type="submit" variant="violet" className="w-full h-11">
               Sign Up
             </Button>
           </div>

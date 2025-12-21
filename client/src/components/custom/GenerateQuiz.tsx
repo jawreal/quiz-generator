@@ -17,7 +17,7 @@ const GenerateQuiz = () => {
       </span>
       <div>
         <CreateQuizDialog open={openDialog} onOpenChange={onOpenDialog} />
-        <Button onClick={onOpenDialog} variant="purple">Generate Quiz</Button> 
+        <Button onClick={onOpenDialog} variant="violet">Generate Quiz</Button> 
       </div>
     </div>
     </div>
