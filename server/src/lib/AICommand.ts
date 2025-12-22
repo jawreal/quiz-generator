@@ -10,6 +10,7 @@ STRICT OUTPUT RULES:
 OBJECT FORMAT:
 {
   title: string,
+  icon: string, // example "🚀" make it suitable to the title REQUIRED
   questions: Question[]
 }
 
@@ -47,7 +48,7 @@ B
 ADDITIONAL RULES:
 - questionNumber must be sequential starting from 1.
 - options must contain 3–4 choices.
-- correctAns must exactly match one option (for multiple choice) or exist in the options.
+- correctAns must exactly match one option (for multiple choice) or exist in the options STRICTLY DO THIS.
 - questions must not be too long. 
 - userAns must always be an empty string.
 

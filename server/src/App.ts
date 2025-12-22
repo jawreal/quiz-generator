@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import AIRouter from "@/routers/AIRouter";
+import QuizRouter from "@/routers/QuizRouter";
 import AuthRouter from "@/routers/AuthRouter";
 import morgan from "morgan";
 import express from "express";
@@ -44,7 +44,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api/prompt", AIRouter);
+app.use("/api/quiz", QuizRouter);
 app.use("/api/auth", AuthRouter);
 app.use(errorHandler);
 

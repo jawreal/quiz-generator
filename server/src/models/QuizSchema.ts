@@ -10,6 +10,7 @@ interface IQuizSchema {
     correctAns: string;
     userAns: string;
    }[], 
+   icon: string;
    difficulty: string;
    quizType: string;
    userPrompt: string;
@@ -28,6 +29,7 @@ const QuizSchema = new Schema<IQuizSchema>({
       correctAns: { type: String, required: false },
     }
   ], 
+  icon: { type: String, required: true }, 
   difficulty: { type: String, required: true }, 
   quizType:  { type: String, required: true },
   userPrompt:  { type: String, required: true },

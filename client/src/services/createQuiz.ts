@@ -11,7 +11,7 @@ interface IProps {
 
 const CreateQuiz = async (props: IProps): Promise<void>  => {
   try{
-    const response = await fetch("/api/prompt/generate-quiz", {
+    const response = await fetch("/api/quiz/ai/generate", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"

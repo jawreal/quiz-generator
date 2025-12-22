@@ -44,16 +44,16 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
              User prompt: ${userPrompt}
           `},
         ],
-        model: "llama3.1-8b",
+        model: "gpt-oss-120b", // llama3.1-8b 
         max_completion_tokens: 3000,
         temperature: 0.7,
       })) as CerebrasChatResponse;
     const output = completion.choices[0].message.content;
-    //console.log(output) 
+    // console.log(output) 
     const normalizedOuput = JSON.parse(output);
     const userQuiz = { ...normalizedOuput, user, difficulty, quizType, userPrompt } as IQuizSchema;
     const savedQuiz = await QuizModel.create(userQuiz);
-    console.log(savedQuiz)
+   console.log(savedQuiz)
     res.status(201).json({ quizId: savedQuiz });
   } catch (error) {
     next(error);

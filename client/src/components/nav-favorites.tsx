@@ -1,6 +1,6 @@
 import {
   ArrowUpRight,
-  Link,
+  ArrowUp,
   MoreHorizontal,
   StarOff,
   Trash2,
@@ -22,29 +22,30 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { Link } from "react-router-dom";
 
 export function NavFavorites({
-  favorites,
+  quizzes,
 }: {
-  favorites: {
-    name: string
-    url: string
-    emoji: string
+  quizzes: {
+    title?: string
+    _id?: string
+    icon?: string
   }[]
 }) {
   const { isMobile } = useSidebar()
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+      <SidebarGroupLabel>Quizzes</SidebarGroupLabel>
       <SidebarMenu>
-        {favorites.map((item) => (
-          <SidebarMenuItem key={item.name}>
+        {quizzes?.map((item, idx) => (
+          <SidebarMenuItem key={idx}>
             <SidebarMenuButton asChild>
-              <a href={item.url} title={item.name}>
-                <span>{item.emoji}</span>
-                <span>{item.name}</span>
-              </a>
+              <Link to={`/quiz/create/${item?._id}` ?? "#"} title={item?.title}>
+                <span>{item?.icon ?? "No icon found"}</span>
+                <span>{item?.title ?? "No title found"}</span>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -64,7 +65,7 @@ export function NavFavorites({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link className="text-muted-foreground" />
+                  <ArrowUp className="text-muted-foreground" />
                   <span>Copy Link</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
@@ -80,12 +81,6 @@ export function NavFavorites({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   )
