@@ -54,7 +54,7 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
     const userQuiz = { ...normalizedOuput, user, difficulty, quizType, userPrompt } as IQuizSchema;
     const savedQuiz = await QuizModel.create(userQuiz);
    console.log(savedQuiz)
-    res.status(201).json({ quizId: savedQuiz });
+    res.status(201).json({ quizId: savedQuiz._id });
   } catch (error) {
     next(error);
   }

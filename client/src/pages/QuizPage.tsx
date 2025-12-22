@@ -8,11 +8,14 @@ import {
 import { Badge, type KeyOfVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import QuizProgress from "@/components/custom/QuizProgress";
-import { Fragment, useMemo } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
 //import ScoreChart from "@/components/custom/ScoreChart";
 import { MoveRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import TakeQuiz from "@/services/takeQuiz";
 
 export interface IQuestions {
   question: string;
@@ -34,45 +37,55 @@ interface IQuiz {
 
 
 const QuizPage = (props: IQuiz) => {
-  const { title, questions, difficulty, quizType, userPrompt, score } = props;
+  const { quiz_id } = useParams();
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading } = useQuery<IQuiz>({
+    queryKey: ["take-quiz", page, quiz_id], 
+    queryFn: () => TakeQuiz({ quiz_id, page }), 
+    enabled: !!quiz_id
+  });
   const DifficultyBadgeIcon = useMemo(() => {
-   return difficulty ? difficultyIcons[difficulty.toLowerCase() as string] : undefined
-  }, [difficulty])
-  const QuizTypeBadgeIcon = useMemo(() => {
-   return quizType ? quizTypeIcons[quizType.toLowerCase() as string] : undefined
-  }, [difficulty])
+   return data?.difficulty ? difficultyIcons[data?.difficulty.toLowerCase() as string] : undefined
+  }, [data])
   
+  const QuizTypeBadgeIcon = useMemo(() => {
+   return data?.quizType ? quizTypeIcons[data?.quizType.toLowerCase() as string] : undefined
+  }, [data])
+  
+  if(isLoading) {
+    return <div className="dark:text-zinc-200">...isLoading</div>
+  }
   
   return (
     <div className="w-full min-h-screen flex flex-col items-center p-5 text-center font-inter gap-y-3">
     <div className="w-full max-w-[30rem] flex flex-col">
      <Card>
      <CardHeader className="gap-y-2">
-      <CardTitle className="text-2xl font-extrabold">{title ?? "No title found"}</CardTitle>
+      <CardTitle className="text-2xl font-extrabold">{data?.title ?? "No title found"}</CardTitle>
        <CardDescription className="flex gap-x-2 justify-center">
-         <Badge variant={(difficulty?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
-           {difficulty ? <Fragment>
+         <Badge variant={(data?.difficulty?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
+           {data?.difficulty ? <Fragment>
              {DifficultyBadgeIcon ? <DifficultyBadgeIcon size={15} /> : ""}
-             {difficulty}
+             {data?.difficulty}
              </Fragment> : "No quiz difficulty found"}
          </Badge>
-         <Badge variant={(quizType?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
-           {quizType ? <Fragment>
+         <Badge variant={(data?.quizType?.toLowerCase() ?? "default") as KeyOfVariants} className="rounded-full gap-x-1 capitalize p-2">
+           {data?.quizType ? <Fragment>
              {QuizTypeBadgeIcon ? <QuizTypeBadgeIcon size={15} /> : ""}
-             {quizType}
+             {data?.quizType}
              </Fragment> : "No quiz type found"}
          </Badge>
        </CardDescription>
       </CardHeader>
       <CardFooter className="bg-violet-500 dark:bg-violet-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
         <span className="font-medium text-xs text-violet-300">AI Prompt</span>
-        <span className="text-violet-50 text-sm line-clamp-4">{userPrompt ?? "No AI prompt found"}</span>
+        <span className="text-violet-50 text-sm line-clamp-4">{data?.userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
-     <QuizProgress currentQuestions={questions?.length ?? 0} totalQuestions={10} />
+     <QuizProgress currentQuestions={data?.questions?.length ?? 0} totalQuestions={10} />
      <div className="w-full flex flex-col gap-y-4">
-     {questions?.map((obj: IQuestions, idx: number) =>
-       <QuizQuestion key={idx} obj={obj ?? []} score={score} />)}
+     {data?.questions?.map((obj: IQuestions, idx: number) =>
+       <QuizQuestion key={idx} obj={obj ?? []} score={data?.score} />)}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">

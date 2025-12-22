@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { QuizModel } from "@/models/QuizSchema";
 import { validationResult, matchedData } from "express-validator";
+import { Types } from "mongoose";
 
 
 type TakeQuiz = {
@@ -23,7 +24,7 @@ const TakeQuizController = async (req: Request, res: Response, next: NextFunctio
     const skip: number = (page - 1) * limit;
     const quiz = await QuizModel.aggregate([
       {
-       $match: { _id: quiz_id, user: user_id } 
+       $match: { _id: new Types.ObjectId(quiz_id), user: user_id } 
       },
       {
         $project: {

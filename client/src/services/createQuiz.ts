@@ -24,7 +24,7 @@ const CreateQuiz = async (props: IProps): Promise<void>  => {
     }
     const result = await response.json();
     console.log(result)
-    return { success: true, quiz_id: result?.quizId };
+    return { success: true, quiz_id: result?.quizId?.toString() };
   }catch(error){
     console.error(error)
     return { success: false } 

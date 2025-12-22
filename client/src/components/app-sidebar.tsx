@@ -115,7 +115,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         throw new Error("Couldn't retrieve the quiz titles")
       };
       const result = await response.json();
-       console.log(result)
       return result
     }
   });
