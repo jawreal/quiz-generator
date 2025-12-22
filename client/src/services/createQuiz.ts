@@ -22,12 +22,12 @@ const CreateQuiz = async (props: IProps): Promise<void>  => {
     if(!response.ok){
       throw new Error("Failed to generate quiz");
     }
-    const quiz_id = await response.json();
-    console.log(quiz_id)
-    //return { success: true, quiz_id };
+    const result = await response.json();
+    console.log(result)
+    return { success: true, quiz_id: result?.quizId };
   }catch(error){
     console.error(error)
-    //return { success: false } 
+    return { success: false } 
   }
 };
 

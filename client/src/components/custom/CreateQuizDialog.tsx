@@ -15,6 +15,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import CreateQuiz from "@/services/createQuiz";
 import { RefreshCw } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   open: boolean;
@@ -35,6 +36,7 @@ const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const CreateQuizDialog = (props: IProps) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { open, onOpenChange } = props;
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<IUserPrompt>();
   const [quizData, setQuizData] = useState<QuizData>({
@@ -42,12 +44,21 @@ const CreateQuizDialog = (props: IProps) => {
     quizType: "multiple choice", 
   });
   const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
+    /*queryClient.invalidateQueries({
+      queryKey: ["quizzes"]
+    });
+    navigate(`/quiz/take`) */
     const input = { ...data, ...quizData };
-    await CreateQuiz(input);
+    const result = await CreateQuiz(input);
+    if (!result?.success || !result?.quiz_id) {
+      console.error("Failed to create quiz or missing quiz_id");
+      return;
+    }
     queryClient.invalidateQueries({
       queryKey: ["quizzes"]
     });
-    onOpenChange();
+    navigate(`/quiz/take/${result?.quiz_id}`) 
+    //onOpenChange();
   }
   
   return (
