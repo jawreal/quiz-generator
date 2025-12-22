@@ -16,7 +16,6 @@ const AuthenticateUser = async (props: UserAuth) => {
     if(!response.ok){
       throw new Error("Failed to submit request");
     }
-    const result = await response.json();
     return { success: true };
   }catch(error){
     console.error(error)

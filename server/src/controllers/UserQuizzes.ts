@@ -8,11 +8,12 @@ const UserQuizzes = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(404).json({ message: "Unauthorized!"})
     };
     const quizzes = await QuizModel.find({
-      _id: user_id
+      user: user_id
     }, {
       title: 1,
       icon: 1,
-    });
+    }).lean();
+    console.log(quizzes)
     res.status(201).json(quizzes)
   }catch(err){
     next(err);

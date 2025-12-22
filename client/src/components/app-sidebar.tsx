@@ -20,6 +20,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useQuery } from "@tanstack/react-query"
 
 // This is sample data.
 const data = {
@@ -104,6 +105,20 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: quizzes } = useQuery({
+    queryKey: ["quizzes"], 
+    queryFn: async () => {
+      const response = await fetch("/api/quiz/user/link", {
+        credentials: "include", 
+      });
+      if(!response.ok){
+        throw new Error("Couldn't retrieve the quiz titles")
+      };
+      const result = await response.json();
+       console.log(result)
+      return result
+    }
+  });
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
@@ -111,7 +126,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites quizzes={data.quizzes} />
+        <NavFavorites quizzes={quizzes} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

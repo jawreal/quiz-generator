@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import CreateQuiz from "@/services/createQuiz";
 import { RefreshCw } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface IProps {
   open: boolean;
@@ -33,6 +34,7 @@ const difficultyOptions: string[] = ["beginner", "intermediate", "advanced", "ex
 const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const CreateQuizDialog = (props: IProps) => {
+  const queryClient = useQueryClient();
   const { open, onOpenChange } = props;
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<IUserPrompt>();
   const [quizData, setQuizData] = useState<QuizData>({
@@ -41,7 +43,10 @@ const CreateQuizDialog = (props: IProps) => {
   });
   const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
     const input = { ...data, ...quizData };
-    await CreateQuiz(input)
+    await CreateQuiz(input);
+    queryClient.invalidateQueries({
+      queryKey: ["quizzes"]
+    });
     onOpenChange();
   }
   
