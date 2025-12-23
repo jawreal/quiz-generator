@@ -24,9 +24,9 @@ const QuizQuestion = ({ obj, score }: IProps) => {
          <span className="flex gap-x-2">
            <span>{`${obj?.questionNumber ?? "0"}.`} {obj?.question ?? "No question found"}</span>
          </span>
-         {!obj?.options &&
+         {obj?.options && obj?.options?.length === 0 &&
          <div className="w-full relative">
-          <Input disabled={true} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
+          <Input disabled={false} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
           {isCorrect && score ? <Check className="absolute right-0 top-2 text-green-500" size ={20}/> : <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
          </div>} 
        </CardContent>
@@ -35,7 +35,7 @@ const QuizQuestion = ({ obj, score }: IProps) => {
         <span className="text-sm">{obj?.correctAns ?? "No correct answer found"}</span>
        </CardFooter>}
       </Card>
-      {obj?.options?.length && obj?.options?.length > 0 &&
+      {obj?.options && obj?.options?.length > 0 &&
          (<RadioGroup className="space-y-2 mt-4 w-full">
          {obj?.options?.map((option: string, idx: number) => {
          const selectedAns = obj?.userAns && obj?.userAns === option

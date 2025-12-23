@@ -4,12 +4,12 @@ interface IProps {
   userPrompt: string;
 };
 
-/*interface IResult {
-  success: false;
+interface IResult {
+  success: boolean;
   quiz_id?:  string;
-}*/
+}
 
-const CreateQuiz = async (props: IProps): Promise<void>  => {
+const CreateQuiz = async (props: IProps): Promise<IResult>  => {
   try{
     const response = await fetch("/api/quiz/ai/generate", {
       method: "POST", 

@@ -5,6 +5,7 @@ import {
   StarOff,
   Trash2,
 } from "lucide-react"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,8 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useLocation, useNavigate } from "react-router-dom";
-import { useCallback } from "react"
+import { Link, useLocation } from "react-router-dom";
 
 interface IQuiz {
   title?: string
@@ -35,35 +35,20 @@ export function NavFavorites({
 }: {
   quizzes: IQuiz[]
 }) {
-  const { isMobile, setOpenMobile } = useSidebar()
+  const { isMobile } = useSidebar()
   const location = useLocation();
-  const navigate = useNavigate();
   
-  const offSidebar = useCallback((e) => {
-    const id = (e.currentTarget as HTMLElement).id
-    if(isMobile){
-      setTimeout(() => setOpenMobile(false), 10)  
-      navigate(`/quiz/take/${id}`) 
-      // async was needed here since without it, causes sidebar unexpected behavior 
-    }
-  }, [isMobile, navigate, setOpenMobile]);
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Quizzes</SidebarGroupLabel>
       <SidebarMenu>
         {quizzes?.map((item: IQuiz, idx: number) => (
           <SidebarMenuItem key={idx}>
-            <SidebarMenuButton 
-              asChild 
-              data-active={item?._id?.toString() ? location.pathname?.includes(item?._id?.toString()) : false }
-              onClick={offSidebar}  
-              id={item?._id?.toString() ?? "#"}
-            >
-              <div
-              >
+            <SidebarMenuButton asChild data-active={location.pathname.includes(item?._id?.toString())}>
+              <Link to={`/quiz/take/${item?._id?.toString()}` ?? "#"} title={item?.title}>
                 <span>{item?.icon ?? "No icon found"}</span>
                 <span>{item?.title ?? "No title found"}</span>
-              </div>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
