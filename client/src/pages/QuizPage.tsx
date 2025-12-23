@@ -11,6 +11,7 @@ import QuizProgress from "@/components/custom/QuizProgress";
 import { Fragment, useMemo, useState } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
+import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 //import ScoreChart from "@/components/custom/ScoreChart";
 import { MoveRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -36,7 +37,7 @@ interface IQuiz {
 }
 
 
-const QuizPage = (props: IQuiz) => {
+const QuizPage = () => {
   const { quiz_id } = useParams();
   const [page, setPage] = useState<number>(1);
   const { data, isLoading } = useQuery<IQuiz>({
@@ -53,9 +54,8 @@ const QuizPage = (props: IQuiz) => {
   }, [data])
   
   if(isLoading) {
-    return <div className="dark:text-zinc-200">...isLoading</div>
+    return <QuizPageSkeleton />
   }
-  
   return (
     <div className="w-full min-h-screen flex flex-col items-center p-5 text-center font-inter gap-y-3">
     <div className="w-full max-w-[30rem] flex flex-col">
