@@ -46,6 +46,7 @@ const TakeQuizController = async (req: Request, res: Response, next: NextFunctio
     };
     res.status(201).json({
       questions, 
+      hasNextPage, 
       ...rest
     });
   }catch(err){

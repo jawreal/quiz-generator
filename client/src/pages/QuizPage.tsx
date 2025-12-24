@@ -8,17 +8,18 @@ import {
 import { Badge, type KeyOfVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import QuizProgress from "@/components/custom/QuizProgress";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState, useCallback, useEffect } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 //import ScoreChart from "@/components/custom/ScoreChart";
-import { MoveRight } from "lucide-react";
+import { MoveRight, Check } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import TakeQuiz from "@/services/takeQuiz";
 
 export interface IQuestions {
+  _id?: string; 
   question: string;
   questionNumber: number;
   options?: string[];
@@ -34,7 +35,8 @@ interface IQuiz {
   quizType: string;
   userPrompt: string;
   score?: number; 
-}
+  hasNextPage: boolean;
+};
 
 
 const QuizPage = () => {
@@ -45,6 +47,7 @@ const QuizPage = () => {
     queryFn: () => TakeQuiz({ quiz_id, page }), 
     enabled: !!quiz_id
   });
+  const [questions, setQuestions] = useState<IQuiz[]>([]);
   const DifficultyBadgeIcon = useMemo(() => {
    return data?.difficulty ? difficultyIcons[data?.difficulty.toLowerCase() as string] : undefined
   }, [data])
@@ -52,6 +55,18 @@ const QuizPage = () => {
   const QuizTypeBadgeIcon = useMemo(() => {
    return data?.quizType ? quizTypeIcons[data?.quizType.toLowerCase() as string] : undefined
   }, [data])
+  
+  const navigateToNextPage = useCallback(() => {
+    if(data?.hasNextPage){
+      setPage(currPage => currPage + 1);
+    };
+  }, [data?.hasNextPage]);
+  
+  useEffect(() => {
+    if(data?.questions){
+      setQuestions(data.questions)
+    }
+  }, [data?.questions])
   
   if(isLoading) {
     return <QuizPageSkeleton />
@@ -84,14 +99,17 @@ const QuizPage = () => {
      </Card>
      <QuizProgress currentQuestions={data?.questions?.length ?? 0} totalQuestions={10} />
      <div className="w-full flex flex-col gap-y-4">
-     {data?.questions?.map((obj: IQuestions, idx: number) =>
+     {questions?.map((obj: IQuestions, idx: number) =>
        <QuizQuestion key={idx} obj={obj ?? []} score={data?.score} />)}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">
-      <Button variant="violet" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11">
-        <span>Next</span>
-        <MoveRight />
+      <Button variant="violet" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11" onClick={navigateToNextPage}>
+        {data?.hasNextPage ? <Fragment>     <span>Next</span>
+             <MoveRight />
+          </Fragment> :
+          <span>Submit</span>
+        }
       </Button>
     </div> 
     </div>

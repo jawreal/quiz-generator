@@ -17,6 +17,10 @@ interface IProps {
 
 const QuizQuestion = ({ obj, score }: IProps) => {
   const isCorrect: boolean = obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(); 
+  
+ /* const onOptionChange = (value: string) => {
+    const selectedValue = obj?.options 
+  };*/
   return (
     <div>
      <Card className="shadow-sm">

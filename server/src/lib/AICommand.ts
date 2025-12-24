@@ -20,7 +20,6 @@ Question FORMAT:
   question: string,
   options?: string[],   // REQUIRED only for multiple choice
   correctAns: string,
-  userAns: string       // always an empty string
 }
 
 QUIZ TYPE RULES:
@@ -50,7 +49,6 @@ ADDITIONAL RULES:
 - options must contain 3–4 choices.
 - correctAns must exactly match one option (for multiple choice) or exist in the options STRICTLY DO THIS.
 - questions must not be too long. 
-- userAns must always be an empty string.
 
 FOLLOW THESE RULES EXACTLY.
 `
