@@ -47,7 +47,7 @@ const QuizPage = () => {
     queryFn: () => TakeQuiz({ quiz_id, page }), 
     enabled: !!quiz_id
   });
-  const [questions, setQuestions] = useState<IQuiz[]>([]);
+  const [questions, setQuestions] = useState<IQuestions[]>([]);
   const DifficultyBadgeIcon = useMemo(() => {
    return data?.difficulty ? difficultyIcons[data?.difficulty.toLowerCase() as string] : undefined
   }, [data])
@@ -57,10 +57,11 @@ const QuizPage = () => {
   }, [data])
   
   const navigateToNextPage = useCallback(() => {
-    if(data?.hasNextPage){
+    console.log(questions)
+    /*if(data?.hasNextPage){
       setPage(currPage => currPage + 1);
-    };
-  }, [data?.hasNextPage]);
+    };*/
+  }, [/*data?.hasNextPage*/, questions]);
   
   useEffect(() => {
     if(data?.questions){
@@ -100,7 +101,12 @@ const QuizPage = () => {
      <QuizProgress currentQuestions={data?.questions?.length ?? 0} totalQuestions={10} />
      <div className="w-full flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
-       <QuizQuestion key={idx} obj={obj ?? []} score={data?.score} />)}
+       <QuizQuestion
+        key={idx} 
+        obj={obj ?? []} 
+        score={data?.score} 
+        setQuestions={setQuestions}
+      />)}
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">

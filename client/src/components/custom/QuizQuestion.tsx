@@ -9,18 +9,31 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { X, Check } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
+import { useMemo, useCallback } from "react"
 
 interface IProps {
   obj: IQuestions;
   score: number | null | undefined;
+  setQuestions: Dispatch<SetStateAction<IQuestions[]>>;
 }
 
-const QuizQuestion = ({ obj, score }: IProps) => {
-  const isCorrect: boolean = obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(); 
+const QuizQuestion = ({ 
+  obj,
+  score, 
+  setQuestions }: IProps) => {
+  const isCorrect: boolean = useMemo(() => obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(), [obj]); 
   
- /* const onOptionChange = (value: string) => {
-    const selectedValue = obj?.options 
-  };*/
+  const onOptionChange = useCallback((value: string) => {
+    setQuestions((qstn_docs: IQuestions[]) => {
+      return qstn_docs?.map((qstn: IQuestions) => {
+        if(qstn?._id === obj?._id){
+          return { ...qstn, userAns: value }
+        }
+        return qstn;
+      })
+    });
+  }, [setQuestions, obj]);
   return (
     <div>
      <Card className="shadow-sm">
@@ -40,7 +53,10 @@ const QuizQuestion = ({ obj, score }: IProps) => {
        </CardFooter>}
       </Card>
       {obj?.options && obj?.options?.length > 0 &&
-         (<RadioGroup className="space-y-2 mt-4 w-full">
+         (<RadioGroup 
+         value={obj?.userAns?? ""} 
+         onValueChange={onOptionChange}
+         className="space-y-2 mt-4 w-full">
          {obj?.options?.map((option: string, idx: number) => {
          const selectedAns = obj?.userAns && obj?.userAns === option
          return (<Label key={idx} htmlFor={option} className={cn("w-full flex items-center gap-x-2 font-normal p-5 rounded-lg border", selectedAns && "bg-green-100 border-green-400 dark:bg-green-950/50 dark:border-green-700", selectedAns && !isCorrect && "bg-red-100 border-red-400 dark:bg-red-950/50 dark:border-red-700", "border-zinc-300 dark:border-zinc-800")}>

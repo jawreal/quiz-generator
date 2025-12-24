@@ -19,6 +19,7 @@ Question FORMAT:
   questionNumber: number,
   question: string,
   options?: string[],   // REQUIRED only for multiple choice
+  userAns: string, // Leave this as empty string REQUIRED
   correctAns: string,
 }
 
@@ -49,6 +50,7 @@ ADDITIONAL RULES:
 - options must contain 3–4 choices.
 - correctAns must exactly match one option (for multiple choice) or exist in the options STRICTLY DO THIS.
 - questions must not be too long. 
+- don't forget userAns
 
 FOLLOW THESE RULES EXACTLY.
 `
