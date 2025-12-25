@@ -37,12 +37,13 @@ interface IQuiz {
   userPrompt: string;
   score?: number; 
   hasNextPage: boolean;
+  completedPage: number;
 };
 
 
 const QuizPage = () => {
   const { quiz_id } = useParams();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1); 
   const { data, isLoading } = useQuery<IQuiz>({
     queryKey: ["take-quiz", page, quiz_id], 
     queryFn: () => TakeQuiz({ quiz_id, page }), 
@@ -72,10 +73,12 @@ const QuizPage = () => {
   }, [data?.hasNextPage, quiz_id, questions]);
   
   useEffect(() => {
-    if(data?.questions){
+    console.log(data)
+    if(data?.questions && data?.completedPage){
+      setPage(data.completedPage)
       setQuestions(data.questions)
     }
-  }, [data?.questions])
+  }, [data])
   
   if(isLoading) {
     return <QuizPageSkeleton />

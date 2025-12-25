@@ -35,7 +35,17 @@ const UpdateQuiz = async (userQuiz: IQuizUpdate) => {
       }
     }
   }));
-  const result = await QuizModel.bulkWrite(operations);
+  const updateCompletedPage = {
+    updateOne: {
+      filter: {
+        _id: quiz_id
+      }, 
+      update: {
+        $inc: { completedPage: 1 } 
+      }
+    }
+  };
+  const result = await QuizModel.bulkWrite([ ...operations, updateCompletedPage ]);
   return result;
 };
 

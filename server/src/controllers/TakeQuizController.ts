@@ -36,7 +36,8 @@ const TakeQuizController = async (req: Request, res: Response, next: NextFunctio
           difficulty: 1,
           quizType: 1,
           userPrompt: 1,
-          questions: { $slice: ["$questions", skip, limit + 1 ] }
+          questions: { $slice: ["$questions", skip, limit + 1 ] }, 
+          completedPage: 1,
         }
       }
     ]);
