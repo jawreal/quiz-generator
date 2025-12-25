@@ -11,6 +11,7 @@ import QuizProgress from "@/components/custom/QuizProgress";
 import { Fragment, useMemo, useState, useCallback, useEffect } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
+import QuizError from "@/components/custom/QuizError";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 //import ScoreChart from "@/components/custom/ScoreChart";
 import { MoveRight } from "lucide-react";
@@ -46,7 +47,12 @@ interface IQuiz {
 const QuizPage = () => {
   const { quiz_id } = useParams();
   const [page, setPage] = useState<number>(1); 
-  const { data, isLoading, refetch } = useQuery<IQuiz>({
+  const { 
+    data,
+    isLoading,
+    refetch,
+    error, 
+  } = useQuery<IQuiz>({
     queryKey: ["take-quiz", page, quiz_id], 
     queryFn: () => TakeQuiz({ quiz_id, page }), 
     enabled: !!quiz_id
@@ -75,6 +81,10 @@ const QuizPage = () => {
     }
   }, [data?.hasNextPage, quiz_id, questions]);
   
+  const incomplete: boolean = useMemo(() => {
+    return questions.some((qstn: IQuestions) => qstn.userAns?.length === 0);
+  }, [questions])
+  
   useEffect(() => {
     console.log(data)
     if(data?.questions && data?.completedPage){
@@ -85,6 +95,10 @@ const QuizPage = () => {
   
   if(isLoading) {
     return <QuizPageSkeleton />
+  }
+  
+  if(error){
+    return <QuizError />
   }
   return (
     <div className="w-full min-h-screen flex flex-col items-center p-5 text-center font-inter gap-y-3">
@@ -124,7 +138,11 @@ const QuizPage = () => {
      {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">
-      <Button variant="violet" className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11" onClick={navigateToNextPage}>
+      <Button
+       disabled={incomplete} 
+       variant="violet" 
+       className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11"
+       onClick={navigateToNextPage}>
         {data?.hasNextPage ? <Fragment>     <span>Next</span>
              <MoveRight />
           </Fragment> :
