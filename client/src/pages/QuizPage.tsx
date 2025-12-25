@@ -38,13 +38,15 @@ interface IQuiz {
   score?: number; 
   hasNextPage: boolean;
   completedPage: number;
+  totalQuestions: number;
+  totalAnswered: number;
 };
 
 
 const QuizPage = () => {
   const { quiz_id } = useParams();
   const [page, setPage] = useState<number>(1); 
-  const { data, isLoading } = useQuery<IQuiz>({
+  const { data, isLoading, refetch } = useQuery<IQuiz>({
     queryKey: ["take-quiz", page, quiz_id], 
     queryFn: () => TakeQuiz({ quiz_id, page }), 
     enabled: !!quiz_id
@@ -65,8 +67,9 @@ const QuizPage = () => {
         answers: questions, 
       })
      if(data?.hasNextPage && result?.success){
-      setPage(currPage => currPage + 1);
+       return setPage(currPage => currPage + 1);
      };
+     refetch();
     }catch(err){
       console.error(err)
     }
@@ -109,7 +112,7 @@ const QuizPage = () => {
         <span className="text-violet-50 text-sm line-clamp-4">{data?.userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
-     <QuizProgress currentQuestions={data?.questions?.length ?? 0} totalQuestions={10} />
+     <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />
      <div className="w-full flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
        <QuizQuestion

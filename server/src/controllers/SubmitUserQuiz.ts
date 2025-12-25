@@ -14,7 +14,7 @@ const SubmitUserQuiz = async (req: Request, res: Response, next: NextFunction) =
     const userSubmission = matchedData(req) as IQuizUpdate;
     const { matchedCount, modifiedCount } = await UpdateQuiz(userSubmission);
     if(matchedCount !== 0 && modifiedCount !== 0 ){
-      res.status(201).json({ message: "Submission success!"})
+      return res.status(201).json({ message: "Submission success!"})
     }
     throw new Error("Failed to submit answers")
   }catch(err){
