@@ -25,9 +25,9 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 interface IQuiz {
-  title?: string
-  _id?: string
-  icon?: string
+  title: string
+  _id: string
+  icon: string
 }
 
 export function NavFavorites({
@@ -44,8 +44,8 @@ export function NavFavorites({
       <SidebarMenu>
         {quizzes?.map((item: IQuiz, idx: number) => (
           <SidebarMenuItem key={idx}>
-            <SidebarMenuButton asChild data-active={location.pathname.includes(item?._id?.toString())}>
-              <Link to={`/quiz/take/${item?._id?.toString()}` ?? "#"} title={item?.title}>
+            <SidebarMenuButton asChild data-active={location.pathname?.includes(item?._id?.toString()) ?? false}>
+              <Link to={`/quiz/take/${item?._id?.toString() ?? "#"}`} title={item?.title}>
                 <span>{item?.icon ?? "No icon found"}</span>
                 <span>{item?.title ?? "No title found"}</span>
               </Link>

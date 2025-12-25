@@ -13,10 +13,11 @@ import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 //import ScoreChart from "@/components/custom/ScoreChart";
-import { MoveRight, Check } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import TakeQuiz from "@/services/takeQuiz";
+import SubmitAnswer from "@/services/sendUserAns";
 
 export interface IQuestions {
   _id?: string; 
@@ -56,12 +57,19 @@ const QuizPage = () => {
    return data?.quizType ? quizTypeIcons[data?.quizType.toLowerCase() as string] : undefined
   }, [data])
   
-  const navigateToNextPage = useCallback(() => {
-    console.log(questions)
-    /*if(data?.hasNextPage){
+  const navigateToNextPage = useCallback(async () => {
+    try{
+      const result = await SubmitAnswer({
+        quiz_id, 
+        answers: questions, 
+      })
+     if(data?.hasNextPage && result?.success){
       setPage(currPage => currPage + 1);
-    };*/
-  }, [/*data?.hasNextPage*/, questions]);
+     };
+    }catch(err){
+      console.error(err)
+    }
+  }, [data?.hasNextPage, quiz_id, questions]);
   
   useEffect(() => {
     if(data?.questions){
