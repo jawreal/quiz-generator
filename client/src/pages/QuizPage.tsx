@@ -146,7 +146,7 @@ const QuizPage = () => {
         obj={obj ?? []} 
         score={data?.score} 
         setQuestions={setQuestions}
-        isCompleted={data?.isCompleted}
+        isCompleted={data?.isCompleted ?? false}
       />)}
      {data.isCompleted && <div className="w-full flex gap-x-2 items-center">
        <Button

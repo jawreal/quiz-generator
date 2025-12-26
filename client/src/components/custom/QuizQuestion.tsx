@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { X, Check } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
-import { useMemo, useCallback } from "react"
+import { useMemo, memo, useCallback, type ChangeEvent } from "react"
 
 interface IProps {
   obj: IQuestions;
@@ -27,7 +27,7 @@ const QuizQuestion = ({
   }: IProps) => {
   const isCorrect: boolean = useMemo(() => obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(), [obj]); 
   
-  const onOptionChange = useCallback((value: string) => {
+  const onUpdateAnswer = useCallback((value: string) => {
     setQuestions((qstn_docs: IQuestions[]) => {
       return qstn_docs?.map((qstn: IQuestions) => {
         if(qstn?._id === obj?._id){
@@ -36,7 +36,19 @@ const QuizQuestion = ({
         return qstn;
       })
     });
-  }, [setQuestions, obj]);
+  }, [setQuestions, obj] ); 
+  
+  const onOptionChange = useCallback((value: string) => {
+    onUpdateAnswer(value)
+  }, [onUpdateAnswer]);
+  
+  const onUpdateInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    onUpdateAnswer(value)
+  }, [onUpdateAnswer]);
+  
+  console.log(isCompleted)
+  
   return (
     <div>
      <Card className="shadow-sm">
@@ -46,7 +58,11 @@ const QuizQuestion = ({
          </span>
          {obj?.options && obj?.options?.length === 0 &&
          <div className="w-full relative">
-          <Input disabled={isCompleted} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
+          <Input  
+          disabled={isCompleted}
+          value={obj?.userAns ?? ""}  
+          onChange={onUpdateInput}
+          className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
           {isCorrect && isCompleted && <Check className="absolute right-0 top-2 text-green-500" size ={20}/>}
           {!isCorrect && isCompleted && <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
          </div>} 
@@ -73,4 +89,4 @@ const QuizQuestion = ({
      </div>)
 };
 
-export default QuizQuestion;
+export default memo(QuizQuestion);
