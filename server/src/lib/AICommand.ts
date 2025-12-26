@@ -47,7 +47,7 @@ B
 
 ADDITIONAL RULES:
 - questionNumber must be sequential starting from 1.
-- options must contain 3–4 choices.
+- options must be limited to 3 choices.
 - correctAns must exactly match one option (for multiple choice) or exist in the options STRICTLY DO THIS.
 - questions must not be too long. 
 - don't forget userAns

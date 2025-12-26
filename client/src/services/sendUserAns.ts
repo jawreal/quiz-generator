@@ -3,11 +3,12 @@ import type { IQuestions } from "@/pages/QuizPage";
 interface ISubmitAns {
   quiz_id?: string | undefined;
   answers: IQuestions[];
+  hasNextPage: boolean;
 }
 
 const SubmitAnswer = async (submission: ISubmitAns) => {
   try{
-    const { answers, quiz_id } = submission; 
+    const { answers, quiz_id, hasNextPage } = submission; 
     if(!quiz_id || !answers){
       throw new Error("Empty fields")
     }
@@ -30,7 +31,8 @@ const SubmitAnswer = async (submission: ISubmitAns) => {
       body: JSON.stringify({
        quiz_id, 
        answers: normalizedAns,
-       score
+       score,  
+       hasNextPage, 
       })
     })
     if(!response.ok){

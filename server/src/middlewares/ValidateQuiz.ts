@@ -14,6 +14,9 @@ const ValidateBeforeSubmit = [
   body("answers")
     .notEmpty()
     .isArray({ min: 1 }),
+  body("hasNextPage")
+  .notEmpty()
+  .isBoolean(),
   body("score")
   .notEmpty()
   .isNumeric(), 

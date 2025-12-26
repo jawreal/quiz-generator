@@ -2,19 +2,19 @@ import { Types } from "mongoose";
 import { QuizModel } from "@/models/QuizSchema";
 
 type Answers = {
-  _id: Types.ObjectId, 
+  _id: Types.ObjectId;
   userAns: string;
-}
+};
 
 type IQuizUpdate = {
-  quiz_id: Types.ObjectId,
+  quiz_id: Types.ObjectId;
   answers: Answers[];
-  score: number; 
-}
-
+  score: number;
+  hasNextPage: boolean;
+};
 
 const UpdateQuiz = async (userQuiz: IQuizUpdate) => {
-  const { answers, quiz_id, score } = userQuiz;
+  const { answers, quiz_id, score, hasNextPage } = userQuiz;
 
   if (!answers || !quiz_id) {
     throw new Error("Invalid payload");
@@ -36,17 +36,32 @@ const UpdateQuiz = async (userQuiz: IQuizUpdate) => {
       }
     }
   }));
+
   const updateCompletedPage = {
     updateOne: {
-      filter: {
-        _id: quiz_id
-      }, 
+      filter: { _id: quizId },
       update: {
-        $inc: { completedPage: 1, score } 
+        $inc: {
+          ...(hasNextPage ? { completedPage: 1, } : {}),
+          score
+        },
+        ...(hasNextPage
+          ? {}
+          : {
+              $set: {
+                isCompleted: true,
+                completedPage: 1,
+              }
+            })
       }
     }
   };
-  const result = await QuizModel.bulkWrite([ ...operations, updateCompletedPage ]);
+
+  const result = await QuizModel.bulkWrite([
+    ...operations,
+    updateCompletedPage
+  ]);
+
   return result;
 };
 

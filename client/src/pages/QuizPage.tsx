@@ -14,7 +14,7 @@ import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizError from "@/components/custom/QuizError";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 import ScoreChart from "@/components/custom/ScoreChart";
-import { MoveRight } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import TakeQuiz from "@/services/takeQuiz";
@@ -41,6 +41,7 @@ interface IQuiz {
   completedPage: number;
   totalQuestions: number;
   totalAnswered: number;
+  isCompleted: boolean;
 };
 
 
@@ -66,11 +67,12 @@ const QuizPage = () => {
    return data?.quizType ? quizTypeIcons[data?.quizType.toLowerCase() as string] : undefined
   }, [data])
   
-  const navigateToNextPage = useCallback(async () => {
+  const submitAttempt = useCallback(async () => {
     try{
       const result = await SubmitAnswer({
         quiz_id, 
         answers: questions, 
+        hasNextPage: data?.hasNextPage ?? boolean, 
       })
      if(data?.hasNextPage && result?.success){
        return setPage(currPage => currPage + 1);
@@ -87,11 +89,21 @@ const QuizPage = () => {
   
   useEffect(() => {
     console.log(data)
-    if(data?.questions && data?.completedPage){
+    if(data?.completedPage && !data.isCompleted){
       setPage(data.completedPage)
-      setQuestions(data.questions)
+    }
+    if(data?.questions){
+      setQuestions(data.questions) 
     }
   }, [data])
+  
+  const navigateToPages = useCallback((e: MouseEvent) => {
+    const id = (e.currentTarget as HTMLElement).id;
+    if(id === "next"){
+      return setPage(currPage => currPage + 1)
+    };
+    setPage(currPage => currPage - 1)
+  }, [])
   
   if(isLoading) {
     return <QuizPageSkeleton />
@@ -126,30 +138,54 @@ const QuizPage = () => {
         <span className="text-violet-50 text-sm line-clamp-4">{data?.userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
-     <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />
-     <div className="w-full flex flex-col gap-y-4">
+     {!data?.isCompleted && <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />}
+     <div className="w-full mt-4 flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
        <QuizQuestion
         key={idx} 
         obj={obj ?? []} 
         score={data?.score} 
         setQuestions={setQuestions}
+        isCompleted={data?.isCompleted}
       />)}
-     {(data?.score && !data?.hasNextPage) && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
+     {data.isCompleted && <div className="w-full flex gap-x-2 items-center">
+       <Button
+         id="prev"
+         disabled={page === 1} 
+         size="lg" 
+         className="flex-1 md:flex-0" 
+         variant="outline"
+         onClick={navigateToPages}>
+         <ChevronLeft />
+         Previous
+       </Button>
+       <Button 
+         id="next"
+         disabled={!data?.hasNextPage}
+         size="lg" 
+         className="flex-1 md:flex-0 ml-auto" 
+         variant="outline" 
+         onClick={navigateToPages}
+        >
+         Next
+         <ChevronRight /> 
+       </Button>
+     </div>} 
+     {data?.isCompleted && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
     </div>
-    <div className="w-full md:w-auto ml-auto mb-2 mt-4">
+    {!data?.isCompleted && <div className="w-full md:w-auto ml-auto mb-2 mt-4">
       <Button
        disabled={incomplete} 
        variant="violet" 
        className="ml-auto w-full md:w-auto ml-auto active:scale-95 h-11"
-       onClick={navigateToNextPage}>
+       onClick={submitAttempt}>
         {data?.hasNextPage ? <Fragment>     <span>Next</span>
-             <MoveRight />
+             <ChevronRight />
           </Fragment> :
           <span>Submit</span>
         }
       </Button>
-    </div>
+    </div>}
     </div>
     </div>) 
 }

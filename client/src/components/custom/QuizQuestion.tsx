@@ -16,12 +16,15 @@ interface IProps {
   obj: IQuestions;
   score: number | null | undefined;
   setQuestions: Dispatch<SetStateAction<IQuestions[]>>;
+  isCompleted: boolean;
 }
 
 const QuizQuestion = ({ 
   obj,
   score, 
-  setQuestions }: IProps) => {
+  setQuestions,
+  isCompleted, 
+  }: IProps) => {
   const isCorrect: boolean = useMemo(() => obj?.userAns?.toLowerCase() === obj?.correctAns?.toLowerCase(), [obj]); 
   
   const onOptionChange = useCallback((value: string) => {
@@ -43,11 +46,12 @@ const QuizQuestion = ({
          </span>
          {obj?.options && obj?.options?.length === 0 &&
          <div className="w-full relative">
-          <Input disabled={false} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
-          {isCorrect && score ? <Check className="absolute right-0 top-2 text-green-500" size ={20}/> : <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
+          <Input disabled={isCompleted} value={obj?.userAns ?? ""}  type="text" className={"border-x-0 border-t-0 shadow-none rounded-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-b border-zinc-300 dark:border-zinc-800 px-0 focus:border-violet-500 text-sm"} /> 
+          {isCorrect && isCompleted && <Check className="absolute right-0 top-2 text-green-500" size ={20}/>}
+          {!isCorrect && isCompleted && <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
          </div>} 
        </CardContent>
-      {!isCorrect && score && <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
+      {!isCorrect && isCompleted && <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
         <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Correct answer</span>
         <span className="text-sm">{obj?.correctAns ?? "No correct answer found"}</span>
        </CardFooter>}
@@ -59,11 +63,11 @@ const QuizQuestion = ({
          className="space-y-2 mt-4 w-full">
          {obj?.options?.map((option: string, idx: number) => {
          const selectedAns = obj?.userAns && obj?.userAns === option
-         return (<Label key={idx} htmlFor={option} className={cn("w-full flex items-center gap-x-2 font-normal p-5 rounded-lg border", selectedAns && "bg-green-100 border-green-400 dark:bg-green-950/50 dark:border-green-700", selectedAns && !isCorrect && "bg-red-100 border-red-400 dark:bg-red-950/50 dark:border-red-700", "border-zinc-300 dark:border-zinc-800")}>
-         <RadioGroupItem id={option} value={option}
-         className={`border-zinc-400 shadow-none dark:border-zinc-800 text-white dark:text-zinc-900/80 ${selectedAns && isCorrect ? "data-[state=checked]:bg-green-500 data-[state=checked]:bg-green-500 text-green-400" : "data-[state=checked]:bg-violet-500 data-[state=checked]:border-violet-500"} text-left`}/>
+         return (<Label key={idx} htmlFor={option} className={cn("w-full flex items-center gap-x-2 font-normal p-5 rounded-lg border", (selectedAns && isCorrect && isCompleted) && "bg-green-100 border-green-400 dark:bg-green-950/50 dark:border-green-700", (selectedAns && !isCorrect && isCompleted) && "bg-red-100 border-red-400 dark:bg-red-950/50 dark:border-red-700", "border-zinc-300 dark:border-zinc-800")}>
+         <RadioGroupItem disabled={isCompleted} id={option} value={option}
+         className={`border-zinc-400 shadow-none dark:border-zinc-800 text-white dark:text-zinc-900/80 ${(selectedAns && isCorrect && isCompleted) ? "data-[state=checked]:bg-green-500 data-[state=checked]:bg-green-500 text-green-400" : "data-[state=checked]:bg-violet-500 data-[state=checked]:border-violet-500"} text-left`}/>
            {option ?? "No option found"}
-           {selectedAns && isCorrect ? <Check className="text-green-500 ml-auto flex-shrink-0"/> : selectedAns && !isCorrect ? <X className="text-red-500 ml-auto flex-shrink-0"/> : ""}
+           {(selectedAns && isCorrect && isCompleted) ? <Check className="text-green-500 ml-auto flex-shrink-0"/> : (selectedAns && isCompleted && !isCorrect) ? <X className="text-red-500 ml-auto flex-shrink-0"/> : ""}
          </Label>)})}
        </RadioGroup>)}
      </div>)

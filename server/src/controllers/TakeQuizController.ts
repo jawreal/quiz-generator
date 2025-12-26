@@ -56,6 +56,7 @@ const TakeQuizController = async (req: Request, res: Response, next: NextFunctio
           userPrompt: 1,
           questions: { $slice: ["$questions", skip, limit + 1 ] }, 
           completedPage: 1,
+          isCompleted: 1,
           score: 1,
          }
        }

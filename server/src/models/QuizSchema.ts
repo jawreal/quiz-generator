@@ -16,6 +16,7 @@ interface IQuizSchema {
    userPrompt: string;
    score?: number;
    completedPage?: number;
+   isCompleted?: boolean;
 }
 
 const QuizSchema = new Schema<IQuizSchema>({
@@ -36,6 +37,7 @@ const QuizSchema = new Schema<IQuizSchema>({
   userPrompt: { type: String, required: true },
   score: { type: Number, required: false },
   completedPage: { type: Number, required: false, default: 1 },
+  isCompleted: { type: Boolean, required: false, default: false },
 });
 
 const QuizModel = model<IQuizSchema>("QuizModel", QuizSchema);
