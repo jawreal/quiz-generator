@@ -13,7 +13,7 @@ import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizError from "@/components/custom/QuizError";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
-//import ScoreChart from "@/components/custom/ScoreChart";
+import ScoreChart from "@/components/custom/ScoreChart";
 import { MoveRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -135,7 +135,7 @@ const QuizPage = () => {
         score={data?.score} 
         setQuestions={setQuestions}
       />)}
-     {/*<ScoreChart score={score ?? 0} total={questions?.length ?? 0} />*/}
+     {(data?.score && !data?.hasNextPage) && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
     </div>
     <div className="w-full md:w-auto ml-auto mb-2 mt-4">
       <Button
@@ -149,7 +149,7 @@ const QuizPage = () => {
           <span>Submit</span>
         }
       </Button>
-    </div> 
+    </div>
     </div>
     </div>) 
 }

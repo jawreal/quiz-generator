@@ -9,11 +9,12 @@ type Answers = {
 type IQuizUpdate = {
   quiz_id: Types.ObjectId,
   answers: Answers[];
+  score: number; 
 }
 
 
 const UpdateQuiz = async (userQuiz: IQuizUpdate) => {
-  const { answers, quiz_id } = userQuiz;
+  const { answers, quiz_id, score } = userQuiz;
 
   if (!answers || !quiz_id) {
     throw new Error("Invalid payload");
@@ -41,7 +42,7 @@ const UpdateQuiz = async (userQuiz: IQuizUpdate) => {
         _id: quiz_id
       }, 
       update: {
-        $inc: { completedPage: 1 } 
+        $inc: { completedPage: 1, score } 
       }
     }
   };

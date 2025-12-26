@@ -14,6 +14,9 @@ const ValidateBeforeSubmit = [
   body("answers")
     .notEmpty()
     .isArray({ min: 1 }),
+  body("score")
+  .notEmpty()
+  .isNumeric(), 
   body("answers.*._id")
     .notEmpty().withMessage("question _id is required")
     .isMongoId().withMessage("question _id must be a MongoId"),

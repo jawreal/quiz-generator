@@ -11,11 +11,17 @@ const SubmitAnswer = async (submission: ISubmitAns) => {
     if(!quiz_id || !answers){
       throw new Error("Empty fields")
     }
-    const normalizedAns = answers?.map((ans: IQuestions) => ({
-     _id: ans._id,
-     userAns: ans.userAns
-    }));
-    console.log(normalizedAns);
+    let score: number = 0;
+    const normalizedAns = answers?.map((ans: IQuestions) => {
+     if(ans.correctAns === ans.userAns){
+       score ++;
+     }
+     return {
+        _id: ans._id,
+        userAns: ans.userAns
+       }
+     }
+    );
     const response = await fetch("/api/quiz/user/submit", {
       method: "POST", 
       headers: {
@@ -24,6 +30,7 @@ const SubmitAnswer = async (submission: ISubmitAns) => {
       body: JSON.stringify({
        quiz_id, 
        answers: normalizedAns,
+       score
       })
     })
     if(!response.ok){
