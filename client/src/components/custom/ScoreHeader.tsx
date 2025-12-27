@@ -3,7 +3,6 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import { useMemo, Fragment, memo } from "react";
 import { Separator } from "@/components/ui/separator"
 
-
 const ScoreHeader = (props: IProps) => {
   const { score, total } = props;
   const percentage = useMemo(() => 

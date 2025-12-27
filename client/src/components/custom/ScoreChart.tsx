@@ -6,24 +6,27 @@ import {
   RadialBarChart,
 } from "recharts"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-//import { Button } from "@/components/ui/button"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogClose, 
+} from "@/components/ui/dialog"
 import { Separator } from "@/components/ui/separator"
 import {
   ChartContainer,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { useMemo, Fragment } from "react";
+import { useMemo, Fragment, memo } from "react";
+import { Button } from "@/components/ui/button";
 
 export interface IProps {
   score: number;
   total: number;
+  open?: boolean;
+  onOpenChange?: () => void;
 }
 
 export interface IScoreStats {
@@ -50,7 +53,7 @@ const ScoreStats = ({ text, value, idx }: IScoreStats) => (
 );
 
 const ScoreChart = (props: IProps) => {
-  const { score, total } = props;
+  const { score, total, open, onOpenChange } = props;
   const percentage = useMemo(() => 
   Math.round((score / total) * 100), [score, total]);
   const totalWrongAns = useMemo(() => (total - score), [score, total]);
@@ -75,69 +78,70 @@ const ScoreChart = (props: IProps) => {
       text: "Total Questions", 
       value: total, 
     }, 
-  ], [score, total])
+  ], [score, total, totalWrongAns])
   
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Quiz Result</CardTitle>
-        <CardDescription>You've successfully finished the quiz</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <RadialBarChart
-            data={chartData}
-            startAngle={0}
-            endAngle={percentage * 3.6} // 360° * (percentage/100) = dynamic end angle
-            innerRadius={80}
-            outerRadius={110}
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader className="items-center pb-0">
+          <DialogTitle>Quiz Result</DialogTitle>
+          <DialogDescription>You've successfully finished the quiz</DialogDescription>
+        </DialogHeader>
+        <div className="flex-1 py-1">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-video max-h-[200px]"
           >
-            <PolarGrid
-              gridType="circle"
-              radialLines={false}
-              stroke="none"
-              className="first:fill-muted last:fill-background"
-              polarRadius={[86, 74]}
-            />
-            <RadialBar dataKey="score" background cornerRadius={10} />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+            <RadialBarChart
+              data={chartData}
+              startAngle={0}
+              endAngle={percentage * 3.6} // 360° * (percentage/100) = dynamic end angle
+              innerRadius={80}
+              outerRadius={110}
+            >
+              <PolarGrid
+                gridType="circle"
+                radialLines={false}
+                stroke="none"
+                className="first:fill-muted last:fill-background"
+                polarRadius={[86, 74]}
+              />
+              <RadialBar dataKey="score" background cornerRadius={10} />
+              <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-2xl font-bold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {percentage}%
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Accuracy
-                        </tspan>
-                      </text>
-                    )
-                  }
-                }}
-              />
-            </PolarRadiusAxis>
-          </RadialBarChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col gap-y-3">
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {percentage}%
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Accuracy
+                          </tspan>
+                        </text>
+                      )
+                    }
+                  }}
+                />
+              </PolarRadiusAxis>
+            </RadialBarChart>
+          </ChartContainer>
+        </div>
+        <div className="flex flex-col w-full gap-y-3">
           {statsLabel?.map((stats: IScoreStats, idx: number) =>
            <ScoreStats
             key={idx}
@@ -146,9 +150,18 @@ const ScoreChart = (props: IProps) => {
             idx={idx}
             />
           )}
-      </CardFooter>
-    </Card>
+        </div>
+        <DialogFooter className="gap-x-3 sm:flex-col flex-row md:flex-row mt-1">
+           <DialogClose asChild>
+             <Button variant="outline" className="flex-1">Exit</Button>
+            </DialogClose>
+            <Button variant="violet" className="flex-1 transition-all active:scale-95" onClick={onOpenChange}>
+              Ok, I understand
+            </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
-export default ScoreChart;
+export default memo(ScoreChart);

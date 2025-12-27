@@ -50,7 +50,8 @@ interface IQuiz {
 
 const QuizPage = () => {
   const { quiz_id } = useParams();
-  const [page, setPage] = useState<number>(1); 
+  const [page, setPage] = useState<number>(1);
+  const [openScore, setOpenScore] = useState<boolean>(false);
   const { 
     data,
     isLoading,
@@ -70,6 +71,8 @@ const QuizPage = () => {
    return data?.quizType ? quizTypeIcons[data?.quizType.toLowerCase() as string] : undefined
   }, [data])
   
+  const onOpenChart = useCallback(() => setOpenScore(open => !open), []); 
+  
   const submitAttempt = useCallback(async () => {
     try{
       const result = await SubmitAnswer({
@@ -81,6 +84,7 @@ const QuizPage = () => {
        return setPage(currPage => currPage + 1);
      };
      refetch();
+     onOpenChart();
     }catch(err){
       console.error(err)
     }
@@ -106,7 +110,7 @@ const QuizPage = () => {
       return setPage(currPage => currPage + 1)
     };
     setPage(currPage => currPage - 1)
-  }, [])
+  }, []);
   
   if(isLoading) {
     return <QuizPageSkeleton />
@@ -179,7 +183,7 @@ const QuizPage = () => {
          <ChevronRight /> 
        </Button>
      </div>} 
-     {(data?.isCompleted && !isLoading) && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
+     {(data?.isCompleted && !isLoading) && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} open={openScore} onOpenChange={onOpenChart} />}
     </div>
     {!data?.isCompleted && <div className="w-full md:w-auto ml-auto mb-2 mt-4">
       <Button
