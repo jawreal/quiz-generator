@@ -13,16 +13,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+//import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import {
   ChartContainer,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { useMemo } from "react";
+import { useMemo, Fragment } from "react";
 
 interface IProps {
   score: number;
   total: number;
+}
+
+interface IScoreStats {
+  text: string;
+  value: number;
+  idx?: number;
 }
 
 const chartConfig = {
@@ -31,9 +38,22 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+
+const ScoreStats = ({ text, value, idx }: IScoreStats) => (
+   <Fragment>
+     <div className="w-full flex items-center text-sm">
+         <span className="text-zinc-500 dark:text-zinc-400">{text}</span> 
+         <span className="font-medium ml-auto">{value}</span> 
+      </div>
+      {idx !== 2 && <Separator />}
+    </Fragment>
+);
+
 const ScoreChart = (props: IProps) => {
   const { score, total } = props;
-  const percentage = useMemo(() => (score / total) * 100, [score, total]);
+  const percentage = useMemo(() => 
+  Math.round((score / total) * 100), [score, total]);
+  const totalWrongAns = useMemo(() => (total - score), [score, total]);
   
   const chartData = useMemo(() => [
   {
@@ -41,6 +61,21 @@ const ScoreChart = (props: IProps) => {
     fill: "#8b5cf6",
   },
   ], [percentage]);
+  
+  const statsLabel = useMemo(() => [
+    {
+      text: "Correct Answers", 
+      value: score, 
+    },
+    {
+      text: "Wrong Answers", 
+      value: totalWrongAns, 
+    }, 
+    {
+      text: "Total Questions", 
+      value: total, 
+    }, 
+  ], [score, total])
   
   return (
     <Card className="flex flex-col">
@@ -84,14 +119,14 @@ const ScoreChart = (props: IProps) => {
                           y={viewBox.cy}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {score}/{total}
+                          {percentage}%
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Score
+                          Accuracy
                         </tspan>
                       </text>
                     )
@@ -102,8 +137,15 @@ const ScoreChart = (props: IProps) => {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <Button variant="violet" >Regenerate Quiz</Button>
+      <CardFooter className="flex-col gap-y-3">
+          {statsLabel?.map((stats: IScoreStats, idx: number) =>
+           <ScoreStats
+            key={idx}
+            text={stats.text}
+            value={stats.value}
+            idx={idx}
+            />
+          )}
       </CardFooter>
     </Card>
   )

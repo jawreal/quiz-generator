@@ -170,7 +170,7 @@ const QuizPage = () => {
          <ChevronRight /> 
        </Button>
      </div>} 
-     {data?.isCompleted && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
+     {(data?.isCompleted && !isLoading) && <ScoreChart score={data?.score ?? 0} total={data?.totalQuestions ?? 0} />}
     </div>
     {!data?.isCompleted && <div className="w-full md:w-auto ml-auto mb-2 mt-4">
       <Button

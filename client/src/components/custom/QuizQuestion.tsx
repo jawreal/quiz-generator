@@ -77,12 +77,14 @@ const QuizQuestion = ({
          className="space-y-2 mt-4 w-full">
          {obj?.options?.map((option: string, idx: number) => {
          const selectedAns = obj?.userAns && obj?.userAns === option
-         return (<Label key={idx} htmlFor={option} className={cn("w-full flex items-center gap-x-2 font-normal p-5 rounded-lg border", (selectedAns && isCorrect && isCompleted) && "bg-green-100 border-green-400 dark:bg-green-950/50 dark:border-green-700", (selectedAns && !isCorrect && isCompleted) && "bg-red-100 border-red-400 dark:bg-red-950/50 dark:border-red-700", "border-zinc-300 dark:border-zinc-800")}>
+         return (
+         <Label key={idx} htmlFor={option} className={cn("w-full flex text-left leading-relaxed items-center gap-x-3 font-normal p-5 rounded-lg border", (selectedAns && isCorrect && isCompleted) && "bg-green-100 border-green-400 dark:bg-green-950/50 dark:border-green-700", (selectedAns && !isCorrect && isCompleted) && "bg-red-100 border-red-400 dark:bg-red-950/50 dark:border-red-700", "border-zinc-300 dark:border-zinc-800")}>
          <RadioGroupItem disabled={isCompleted} id={option} value={option}
          className={`border-zinc-400 shadow-none dark:border-zinc-800 text-white dark:text-zinc-900/80 ${(selectedAns && isCorrect && isCompleted) ? "data-[state=checked]:bg-green-500 data-[state=checked]:bg-green-500 text-green-400" : "data-[state=checked]:bg-violet-500 data-[state=checked]:border-violet-500"} text-left`}/>
-           {option ?? "No option found"}
+          <span className="inline-block" >{option ?? "No option found"}</span>
            {(selectedAns && isCorrect && isCompleted) ? <Check className="text-green-500 ml-auto flex-shrink-0"/> : (selectedAns && isCompleted && !isCorrect) ? <X className="text-red-500 ml-auto flex-shrink-0"/> : ""}
-         </Label>)})}
+         </Label>
+         )})}
        </RadioGroup>)}
      </div>)
 };
