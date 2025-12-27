@@ -8,7 +8,7 @@ import {
 import { Badge, type KeyOfVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import QuizProgress from "@/components/custom/QuizProgress";
-import { Fragment, useMemo, useState, useCallback, useEffect } from "react";
+import { Fragment, useMemo, useState, useCallback, useEffect, type MouseEvent } from "react";
 import { difficultyIcons, quizTypeIcons } from "@/lib/optionIcons";
 import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizError from "@/components/custom/QuizError";
@@ -72,7 +72,7 @@ const QuizPage = () => {
       const result = await SubmitAnswer({
         quiz_id, 
         answers: questions, 
-        hasNextPage: data?.hasNextPage ?? boolean, 
+        hasNextPage: data?.hasNextPage ?? false, 
       })
      if(data?.hasNextPage && result?.success){
        return setPage(currPage => currPage + 1);
@@ -97,7 +97,7 @@ const QuizPage = () => {
     }
   }, [data])
   
-  const navigateToPages = useCallback((e: MouseEvent) => {
+  const navigateToPages = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     const id = (e.currentTarget as HTMLElement).id;
     if(id === "next"){
       return setPage(currPage => currPage + 1)
@@ -138,17 +138,16 @@ const QuizPage = () => {
         <span className="text-violet-50 text-sm line-clamp-4">{data?.userPrompt ?? "No AI prompt found"}</span>
       </CardFooter>
      </Card>
-     {!data?.isCompleted && <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />}
+     {(!data?.isCompleted && !isLoading) && <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />}
      <div className="w-full mt-4 flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
        <QuizQuestion
         key={idx} 
-        obj={obj ?? []} 
-        score={data?.score} 
+        obj={obj ?? []}
         setQuestions={setQuestions}
         isCompleted={data?.isCompleted ?? false}
       />)}
-     {data.isCompleted && <div className="w-full flex gap-x-2 items-center">
+     {data?.isCompleted && <div className="w-full flex gap-x-2 items-center">
        <Button
          id="prev"
          disabled={page === 1} 

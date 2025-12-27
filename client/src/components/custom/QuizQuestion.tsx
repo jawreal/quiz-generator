@@ -14,14 +14,12 @@ import { useMemo, memo, useCallback, type ChangeEvent } from "react"
 
 interface IProps {
   obj: IQuestions;
-  score: number | null | undefined;
   setQuestions: Dispatch<SetStateAction<IQuestions[]>>;
   isCompleted: boolean;
 }
 
 const QuizQuestion = ({ 
   obj,
-  score, 
   setQuestions,
   isCompleted, 
   }: IProps) => {

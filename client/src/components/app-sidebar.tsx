@@ -44,36 +44,14 @@ const data = {
     },
     {
       title: "Generate Quiz",
-      url: "#",
+      url: "/quiz/create",
       icon: Sparkles,
     }, 
-  ],
-  quizzes: [
-    {
-      title: "Project Management & Task Tracking",
-      _id: "1", 
-      icon: "📊",
-    },
-    {
-      title: "Family Recipe Collection & Meal Planning",
-      _id: "2",
-      icon: "🍳",
-    },
-    {
-      title: "Fitness Tracker & Workout Routines",
-      _id: "3",
-      icon: "💪",
-    },
-    {
-      title: "Book Notes & Reading List",
-      _id: "4",
-      icon: "📚",
-    },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: quizzes } = useQuery({
+  const { data: quizzes, isLoading } = useQuery({
     queryKey: ["quizzes"], 
     queryFn: async () => {
       const response = await fetch("/api/quiz/user/link", {
@@ -93,7 +71,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites quizzes={quizzes} />
+        {!isLoading && <NavFavorites quizzes={quizzes} />}
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
