@@ -3,6 +3,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardContent, 
   CardFooter, 
 } from "@/components/ui/card";
 import { Badge, type KeyOfVariants } from "@/components/ui/badge";
@@ -14,11 +15,13 @@ import QuizQuestion from "@/components/custom/QuizQuestion";
 import QuizError from "@/components/custom/QuizError";
 import QuizPageSkeleton from "@/components/custom/QuizPageSkeleton";
 import ScoreChart from "@/components/custom/ScoreChart";
+import ScoreHeader from "@/components/custom/ScoreHeader";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import TakeQuiz from "@/services/takeQuiz";
 import SubmitAnswer from "@/services/sendUserAns";
+import { cn } from "@/lib/utils"
 
 export interface IQuestions {
   _id?: string; 
@@ -133,17 +136,23 @@ const QuizPage = () => {
          </Badge>
        </CardDescription>
       </CardHeader>
-      <CardFooter className="bg-violet-500 dark:bg-violet-800 py-4 rounded-b-md flex flex-col items-start gap-y-1 text-left">
+      <CardContent className={cn("bg-violet-500 dark:bg-violet-800 py-4 flex flex-col items-start gap-y-2 text-left", !data?.isCompleted && "rounded-b-lg")}>
         <span className="font-medium text-xs text-violet-300">AI Prompt</span>
         <span className="text-violet-50 text-sm line-clamp-4">{data?.userPrompt ?? "No AI prompt found"}</span>
-      </CardFooter>
+      </CardContent>
+      {data?.isCompleted && <CardFooter className="flex flex-col p-4 gap-y-3">
+       <ScoreHeader
+         score={data?.score ?? 0}
+         total={data?.totalQuestions ?? 0}
+       />
+      </CardFooter>}
      </Card>
      {(!data?.isCompleted && !isLoading) && <QuizProgress totalAnswered={data?.totalAnswered ?? 0} totalQuestions={data?.totalQuestions ?? 0} />}
      <div className="w-full mt-4 flex flex-col gap-y-4">
      {questions?.map((obj: IQuestions, idx: number) =>
        <QuizQuestion
         key={idx} 
-        obj={obj ?? []}
+        obj={obj}
         setQuestions={setQuestions}
         isCompleted={data?.isCompleted ?? false}
       />)}

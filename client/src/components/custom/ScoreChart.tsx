@@ -21,12 +21,12 @@ import {
 } from "@/components/ui/chart"
 import { useMemo, Fragment } from "react";
 
-interface IProps {
+export interface IProps {
   score: number;
   total: number;
 }
 
-interface IScoreStats {
+export interface IScoreStats {
   text: string;
   value: number;
   idx?: number;
@@ -80,8 +80,8 @@ const ScoreChart = (props: IProps) => {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Congratulations!</CardTitle>
-        <CardDescription>You successfully passed the quiz! </CardDescription>
+        <CardTitle>Quiz Result</CardTitle>
+        <CardDescription>You've successfully finished the quiz</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
