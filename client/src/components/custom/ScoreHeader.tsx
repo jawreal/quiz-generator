@@ -1,5 +1,5 @@
 import type { IProps, IScoreStats } from "@/components/custom/ScoreChart";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, Minus } from "lucide-react";
 import { useMemo, Fragment, memo } from "react";
 import { Separator } from "@/components/ui/separator"
 
@@ -30,13 +30,13 @@ const ScoreHeader = (props: IProps) => {
   return statsLabel?.map((stats: IScoreStats, idx: number) => {
     return (
        <Fragment key={idx}>
-         <div className="w-full flex items-center text-sm items-center">
+         <div className="w-full flex items-center text-sm">
             <span className="text-zinc-500 dark:text-zinc-400">{stats.text}</span> 
-            <span className="font-medium ml-auto flex [&>svg]:ml-1">
+            <span className="font-medium ml-auto flex items-center [&>svg]:ml-1">
               {stats.value}
               {idx === 3 && <Fragment>
                 <span>%</span>
-                {percentage < 50 ? <ArrowDown size={16} className="text-red-500" /> : <ArrowUp size={16} className="text-green-500" />}
+                {percentage < 50 ? <ArrowDown size={16} className="text-red-500" /> : (percentage === 50 ? <Minus size={16} className="text-yellow-500" /> : <ArrowUp size={16} className="text-green-500" />)}
               </Fragment>}
              </span>
            </div> 

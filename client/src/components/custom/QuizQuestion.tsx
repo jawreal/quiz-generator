@@ -65,7 +65,7 @@ const QuizQuestion = ({
           {!isCorrect && isCompleted && <X className="absolute right-0 top-2 text-red-500" size ={20}/>}
          </div>} 
        </CardContent>
-      {!isCorrect && isCompleted && <CardFooter className="py-4 border-t flex-col items-start gap-y-2">
+      {!isCorrect && isCompleted && <CardFooter className="py-4 border-t flex-col items-start gap-y-2 text-left">
         <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Correct answer</span>
         <span className="text-sm">{obj?.correctAns ?? "No correct answer found"}</span>
        </CardFooter>}
