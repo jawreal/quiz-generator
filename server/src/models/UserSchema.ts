@@ -16,16 +16,18 @@ interface IUser extends UserInfo, Document {
 
 
 
-const UserSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser>({
   firstName: { type: String, required: true }, 
   lastName: { type: String, required: true }, 
   username: { type: String, required: true, unique: true }, 
   password: { type: String, required: true }, 
 }, {
-  timestamps: true
+  timestamps: true, 
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }, 
 });
 
-UserSchema.methods.validatePassword = async function <T extends string>(
+userSchema.methods.validatePassword = async function <T extends string>(
   plainPassword: T,
   username: T
 ): Promise<boolean> {
@@ -33,7 +35,13 @@ UserSchema.methods.validatePassword = async function <T extends string>(
   return result && username === this.username;
 };
 
-UserSchema.pre("updateOne", async function (next) {
+userSchema
+  .virtual("fullName")
+  .get(function (this: { firstName: string; lastName: string }) {
+    return `${this.firstName} ${this.lastName}`;
+  });
+
+userSchema.pre("updateOne", async function (next) {
   const update = this.getUpdate() as any;
 
   if (update?.$set?.password) {
@@ -48,7 +56,7 @@ UserSchema.pre("updateOne", async function (next) {
   next();
 });
 
-UserSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -58,6 +66,6 @@ UserSchema.pre("save", async function (next) {
 
 
 
-const UserModel = model<IUser>("UserModel", UserSchema)
+const UserModel = model<IUser>("UserModel", userSchema)
 
 export { UserModel, IUser };
