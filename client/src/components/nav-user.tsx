@@ -29,7 +29,7 @@ export const NavUser = () => {
     setDarkMode((prevTheme) => !prevTheme);
   }
   
-  const avatar = useMemo(() => `https://api.dicebear.com/9.x/identicon/svg?seed=${fullName ?? "default"}`, [fullName]);
+  const avatar = useMemo(() => `https://api.dicebear.com/9.x/glass/svg?seed=${fullName ?? "default"}`, [fullName]);
 
   return (
     <SidebarMenu>
@@ -46,8 +46,8 @@ export const NavUser = () => {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{fullName ?? "No name found"}</span>
-                <span className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-x-2">
-                  {username ?? "No username found"}
+                <span className="text-xs text-zinc-700 dark:text-zinc-400 flex items-center gap-x-2">
+                  {`@${username ?? "No username found"}`}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -67,8 +67,8 @@ export const NavUser = () => {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{fullName ?? "No name found"}</span>
-                  <span className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-x-2">
-                    {username ?? "No username foumd"}
+                  <span className="text-xs text-zinc-700 dark:text-zinc-400 flex items-center gap-x-2">
+                  {`@${username ?? "No username found"}`}
                   </span>
                 </div>
               </div>
@@ -85,7 +85,6 @@ export const NavUser = () => {
                 />
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
             <DropdownMenuItem
               /*onSelect={(e) => e.preventDefault()}
               onClick={() => onOpenChange(true)}*/
