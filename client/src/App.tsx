@@ -4,9 +4,11 @@ import { AuthProvider } from "@/hooks/useAuthProvider";
 import LoginForm from "@/pages/LoginForm";
 import SignUpForm from "@/pages/SignUpForm";
 import LandingPage from "@/pages/LandingPage";
+import useDarkMode from "@/hooks/useDarkMode";
 
 
 const App = () => {
+  useDarkMode();
   return (
   <AuthProvider>
     <Router>

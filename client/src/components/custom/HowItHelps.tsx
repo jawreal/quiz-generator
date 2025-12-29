@@ -5,12 +5,12 @@ import {
   CardHeader, 
 } from "@/components/ui/card";
 
-interface IBenefits {
+export interface ISystemInfo {
   text: string;
   src: string;
 }
 
-const benefits: IBenefits[] = [
+const benefits: ISystemInfo[] = [
   {
     text: "Create interactive quizzes from your own prompts to sharpen skills and reinforce knowledge through active learning.", 
     src: "/interactive.svg", 

@@ -4,6 +4,34 @@ import {
   CardDescription, 
   CardHeader, 
 } from "@/components/ui/card"
+import type { ISystemInfo } from "@/components/custom/HowItHelps";
+
+interface ISteps extends ISystemInfo {
+  description: string;
+}
+
+const steps: ISystemInfo[] = [
+  {
+    text: "Create an account to get started",
+    description:
+      "Provide the required information to create your account and securely access all quiz generation features.",
+    src: "/login.svg",
+  },
+  {
+    text: "Enter your prompt and generate a personalized quiz",
+    description:
+      "Describe the topic or skill you want to practice, and the system will generate an interactive quiz based on your input.",
+    src: "/create.svg",
+  },
+  {
+    text: "Take the quiz and review your results instantly",
+    description:
+      "Answer the questions, receive immediate feedback, and review your results to track progress and improve your skills.",
+    src: "/take.svg",
+  },
+];
+
+
 
 const HowItWorks = () => {
   return (
@@ -16,21 +44,21 @@ const HowItWorks = () => {
             How it works?
           </h2>
           <p className="text-zinc-500 text-sm md:text-base max-w-2xl mx-auto">
-            Benefits on using this platform
+          Everything you need to generate interactive quizzes from your prompts and improve learning through smart, engaging questions.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4">
-          <Card className="">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full px-4">
+          {steps?.map((step: ISteps, idx: number) => <Card key={idx}>
             <CardHeader className="space-y-3">
-              <img src="/generate.svg" className="h-20 w-20" />
+              <img src={step.src} className="h-20 w-20" />
               <CardTitle>
-                Create account
+                {step.text}
               </CardTitle>
               <CardDescription>
-                Create interactive quizzes from your own prompts to sharpen skills and reinforce knowledge through active learning.
+                {step.description}
               </CardDescription>
             </CardHeader>
-          </Card>
+          </Card>)}
         </div>
       </div>
     </div>

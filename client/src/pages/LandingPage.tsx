@@ -1,6 +1,7 @@
 import Navbar from "@/layouts/Navbar";
 import { Button } from "@/components/ui/button"
 import HowItHelps from "@/components/custom/HowItHelps"
+import HowItWorks from "@/components/custom/HowItWorks"
 
 const LandingPage = () => {
   return (
@@ -22,6 +23,7 @@ const LandingPage = () => {
         </Button>
       </div>
       <HowItHelps />
+      <HowItWorks />
     </div>
     )
 };
