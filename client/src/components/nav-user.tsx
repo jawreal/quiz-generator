@@ -16,23 +16,33 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
+import LogoutDialog from "@/components/custom/LogoutDialog";
 import useDarkMode from "@/hooks/useDarkMode";
 import { useAuth } from "@/hooks/useAuthProvider";
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 
 export const NavUser = () => {
   const { fullName, username } = useAuth();
   const { isMobile } = useSidebar();
   const [darkMode, setDarkMode] = useDarkMode();
+  const [openLogout, setOpenLogout] = useState<boolean>(false);
 
   const onDarkmode = () => {
     setDarkMode((prevTheme) => !prevTheme);
   }
   
   const avatar = useMemo(() => `https://api.dicebear.com/9.x/glass/svg?seed=${fullName ?? "default"}`, [fullName]);
+  
+  const onLogOut = useCallback(() => {
+    setOpenLogout(open => !open)
+  }, []);
 
   return (
     <SidebarMenu>
+      <LogoutDialog
+       open={openLogout} 
+       onOpenChange={onLogOut}
+      />
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -86,8 +96,8 @@ export const NavUser = () => {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuItem
-              /*onSelect={(e) => e.preventDefault()}
-              onClick={() => onOpenChange(true)}*/
+              onSelect={(e) => e.preventDefault()}
+              onClick={onLogOut}
             >
               <LogOut />
               Log out

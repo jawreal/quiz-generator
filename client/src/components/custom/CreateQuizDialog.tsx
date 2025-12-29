@@ -62,7 +62,7 @@ const CreateQuizDialog = (props: IProps) => {
   }
   
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} >
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4"> 
           <DialogHeader className="text-left">

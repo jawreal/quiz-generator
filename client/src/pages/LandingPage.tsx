@@ -12,7 +12,7 @@ const LandingPage = () => {
               intelligence
            </span>
         </h1>
-        <p className="text-zinc-500 text-base lg:text-lg max-w-2xl">An An AI-powered platform for creating interactive and adaptive quizzes that support effective assessment and personalized learning.
+        <p className="text-zinc-500 text-base lg:text-lg max-w-2xl">An AI-powered platform for creating interactive and adaptive quizzes that support effective assessment and personalized learning.
         </p>
         <Button
           variant="violet"
