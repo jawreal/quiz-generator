@@ -5,12 +5,14 @@ import {
   CardHeader, 
 } from "@/components/ui/card"
 import type { ISystemInfo } from "@/components/custom/HowItHelps";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 interface ISteps extends ISystemInfo {
   description: string;
 }
 
-const steps: ISystemInfo[] = [
+const steps: ISteps[] = [
   {
     text: "Create an account to get started",
     description:
@@ -34,20 +36,30 @@ const steps: ISystemInfo[] = [
 
 
 const HowItWorks = () => {
+  const { ref: workRef, inView: workInview } = useInView({
+    triggerOnce: true, 
+    threshold: 0.1,
+  }) 
   return (
      <div
-      id="benefits"
+      id="itworks"
       className="w-full flex flex-col items-center justify-center font-inter py-20 px-4"> 
       <div>
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 bg-clip-text text-transparent mb-3">
             How it works?
           </h2>
-          <p className="text-zinc-500 text-sm md:text-base max-w-2xl mx-auto">
+          <p 
+           className="text-zinc-500 text-sm md:text-base max-w-2xl mx-auto">
           Everything you need to generate interactive quizzes from your prompts and improve learning through smart, engaging questions.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full px-4">
+        <motion.div
+          ref={workRef}  
+          initial={{ opacity: 0, y: 20 }}
+          animate={workInview ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full px-4">
           {steps?.map((step: ISteps, idx: number) => <Card key={idx}>
             <CardHeader className="space-y-3">
               <img src={step.src} className="h-20 w-20" />
@@ -59,7 +71,7 @@ const HowItWorks = () => {
               </CardDescription>
             </CardHeader>
           </Card>)}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

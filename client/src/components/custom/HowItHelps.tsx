@@ -4,6 +4,8 @@ import {
   CardDescription, 
   CardHeader, 
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export interface ISystemInfo {
   text: string;
@@ -26,12 +28,21 @@ const benefits: ISystemInfo[] = [
 ]
 
 const HowItHelps = () => {
+  const { ref: benefitRef, inView: benefitInview } = useInView({
+    triggerOnce: true, 
+    threshold: 0.1,
+  })
   return (
      <div
       id="benefits"
+      ref={benefitRef} 
       className="w-full flex flex-col items-center justify-center font-inter py-10 px-4 gap-0">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-x-2 max-w-2xl w-full p-5 bg-violet-500 dark:bg-violet-600/60 rounded-md">
-          {benefits?.map((benefit: IBenefits, idx: number) => 
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={benefitInview ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-x-2 max-w-2xl w-full p-5 bg-violet-500 dark:bg-violet-600/60 rounded-md">
+          {benefits?.map((benefit: ISystemInfo, idx: number) => 
           <Card
             key={idx} 
             className="text-center bg-transparent border-0 shadow-none">
@@ -44,7 +55,7 @@ const HowItHelps = () => {
               </CardDescription>
             </CardHeader>
           </Card>)}
-      </div>
+      </motion.div>
     </div>
   )
 };
