@@ -4,9 +4,18 @@ import HowItHelps from "@/components/custom/HowItHelps"
 import HowItWorks from "@/components/custom/HowItWorks"
 import Footer from "@/components/custom/Footer"
 import { motion } from "framer-motion";
+import AuthDialog from "@/components/custom/AuthDialog";
+import SignUpForm from "@/pages/SignUpForm";
+import { useState } from "react";
 
 
 const LandingPage = () => {
+  const [openForm, setOpenForm] = useState<boolean>(false);
+  
+  const onOpenForm = () => {
+    setOpenForm(open => !open)
+  }
+  
   return (
     <div className="min-h-screen flex flex-col font-inter w-full items-center">
       <Navbar />
@@ -25,10 +34,14 @@ const LandingPage = () => {
         </p>
         <Button
           variant="violet"
+          onClick={onOpenForm}
           className="mt-4 h-10 hover:scale-105 transition-all duration-150 active:scale-95" >
            Get Started
         </Button>
       </motion.div>
+      <AuthDialog open={openForm} onOpenChange={onOpenForm}>
+        <SignUpForm />
+      </AuthDialog>
       <HowItHelps />
       <HowItWorks />
       <Footer />
