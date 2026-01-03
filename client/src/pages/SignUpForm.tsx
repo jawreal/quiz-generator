@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import CustomInput from "@/components/custom/CustomInput"
 import { Label } from "@/components/ui/label";
 import RegisterAccount, { type UserInfo } from "@/services/registerAccount";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { User, AtSign, Lock } from "lucide-react"
 
 const SignUpForm = ({
   className,
@@ -40,42 +41,39 @@ const SignUpForm = ({
            <div className="grid grid-cols-2 gap-x-2">
               <div className="grid gap-2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input
+                <CustomInput
+                  icon={User}
                   id="firstName"
-                  type="text"
                   placeholder="John"
-                  className="h-11"
                   {...register("firstName")}
                  />
                </div> 
                <div className="grid gap-2">
                 <Label htmlFor="lastName">Last Name</Label>
-                <Input
+                <CustomInput
+                  icon={User}
                   id="lastName"
-                  type="text"
                   placeholder="Doe"
-                  className="h-11"
                   {...register("lastName")}
                  />
                </div> 
             </div> 
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
-              <Input
+              <CustomInput
+                icon={AtSign}
                 id="username"
-                type="text"
                 placeholder="johnDoe.23"
-                className="h-11"
                 {...register("username")}
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input
+              <CustomInput
+                icon={Lock}
                 id="password"
-                type="password"
+                isPassword={true}
                 placeholder="••••••••••"
-                className="h-11"
                 {...register("password")}
               />
             </div>

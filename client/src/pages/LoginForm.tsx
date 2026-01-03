@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import CustomInput from "@/components/custom/CustomInput"
 import { Label } from "@/components/ui/label";
 import type { UserAuth } from "@/services/registerAccount";
 import AuthenticateUser from "@/services/authenticateUser";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { AtSign, Lock } from "lucide-react"
 
 const LoginForm = ({
   className,
@@ -46,9 +47,9 @@ const LoginForm = ({
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
-              <Input
+              <CustomInput
+                icon={AtSign}
                 id="username"
-                type="text"
                 placeholder="johnDoe.23"
                 className="h-11"
                 {...register("username")}
@@ -56,9 +57,10 @@ const LoginForm = ({
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input
+              <CustomInput
+                icon={Lock}
                 id="password"
-                type="password"
+                isPassword={true}
                 placeholder="••••••••••"
                 {...register("password")}
                 className="h-11" 
