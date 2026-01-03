@@ -7,6 +7,9 @@ import {
 import type { ISystemInfo } from "@/components/custom/HowItHelps";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
+import { lazy, Suspense } from "react";
+const Image = lazy(() => import("@/components/custom/Image"));
 
 interface ISteps extends ISystemInfo {
   description: string;
@@ -62,7 +65,9 @@ const HowItWorks = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full px-4">
           {steps?.map((step: ISteps, idx: number) => <Card key={idx}>
             <CardHeader className="space-y-3">
-              <img src={step.src} className="h-20 w-20" />
+              <Suspense fallback={<Skeleton className="h-20 w-20" />} > 
+                 <Image src={step.src} className="h-20 w-20" />
+              </Suspense>
               <CardTitle>
                 {step.text}
               </CardTitle>

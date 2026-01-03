@@ -6,6 +6,9 @@ import {
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
+import { lazy, Suspense } from "react";
+const Image = lazy(() => import("@/components/custom/Image"));
 
 export interface ISystemInfo {
   text: string;
@@ -50,9 +53,11 @@ const HowItHelps = () => {
               <CardTitle className="font-normal text-zinc-200">
               {benefit.text}
               </CardTitle>
-              <CardDescription className="bg-violet-100 p-2 rounded-sm">
-               <img src={benefit.src} className="h-24 w-24" />
-              </CardDescription>
+              <Suspense fallback={<Skeleton className="h-28 w-28 bg-violet-700/80" />} > 
+                <CardDescription className="bg-violet-100 p-2 rounded-sm">
+                 <Image src={benefit.src} className="h-24 w-24" />
+               </CardDescription>
+             </Suspense> 
             </CardHeader>
           </Card>)}
       </motion.div>
