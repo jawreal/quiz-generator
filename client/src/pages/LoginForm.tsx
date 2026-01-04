@@ -6,6 +6,7 @@ import type { UserAuth } from "@/services/registerAccount";
 import AuthenticateUser from "@/services/authenticateUser";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { AtSign, Lock } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const LoginForm = ({
   className,
@@ -39,9 +40,9 @@ const LoginForm = ({
             <h1 className="text-xl font-bold">Welcome to GenQuiz</h1>
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
+              <Link to="/auth" className="underline underline-offset-4">
                 Sign up
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -50,7 +51,7 @@ const LoginForm = ({
               <CustomInput
                 icon={AtSign}
                 id="username"
-                placeholder="johnDoe.23"
+                placeholder="Enter username"
                 className="h-11"
                 {...register("username")}
               />

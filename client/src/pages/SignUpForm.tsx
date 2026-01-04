@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import RegisterAccount, { type UserInfo } from "@/services/registerAccount";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { User, AtSign, Lock } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const SignUpForm = ({
   className,
@@ -32,48 +33,48 @@ const SignUpForm = ({
             <h1 className="text-xl font-bold">Create Account</h1>
             <div className="text-center text-sm">
               Already have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
+              <Link to="login" className="underline underline-offset-4">
                 Sign In
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col gap-6">
            <div className="grid grid-cols-2 gap-x-2">
               <div className="grid gap-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">First Name *</Label>
                 <CustomInput
                   icon={User}
                   id="firstName"
-                  placeholder="John"
+                  placeholder="First name"
                   {...register("firstName")}
                  />
                </div> 
                <div className="grid gap-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Last Name *</Label>
                 <CustomInput
                   icon={User}
                   id="lastName"
-                  placeholder="Doe"
+                  placeholder="Last name"
                   {...register("lastName")}
                  />
                </div> 
             </div> 
             <div className="grid gap-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">Username *</Label>
               <CustomInput
                 icon={AtSign}
                 id="username"
-                placeholder="johnDoe.23"
+                placeholder="Create username"
                 {...register("username")}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Password *</Label>
               <CustomInput
                 icon={Lock}
                 id="password"
                 isPassword={true}
-                placeholder="••••••••••"
+                placeholder="Create password"
                 {...register("password")}
               />
             </div>

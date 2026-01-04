@@ -5,7 +5,7 @@ import HowItWorks from "@/components/custom/HowItWorks"
 import Footer from "@/components/custom/Footer"
 import { motion } from "framer-motion";
 import AuthDialog from "@/components/custom/AuthDialog";
-import SignUpForm from "@/pages/SignUpForm";
+import { Outlet } from "react-router-dom"
 import { useState } from "react";
 
 
@@ -40,7 +40,7 @@ const LandingPage = () => {
         </Button>
       </motion.div>
       <AuthDialog open={openForm} onOpenChange={onOpenForm}>
-        <SignUpForm />
+        <Outlet />
       </AuthDialog>
       <HowItHelps />
       <HowItWorks />

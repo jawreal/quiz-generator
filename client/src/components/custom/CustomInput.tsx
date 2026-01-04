@@ -22,7 +22,7 @@ const CustomInput = (props: CustomInputProps) => {
       <Input 
         {...rest} 
         type={!isPassword ? "text" : (!showPassword ? "password" : "text")}
-        className="h-11 pl-9 rounded-lg shadow-none"/>
+        className="h-11 pl-10 rounded-lg shadow-none"/>
       {isPassword && 
       <Button 
         variant="ghost" 
