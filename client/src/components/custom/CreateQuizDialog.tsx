@@ -31,8 +31,8 @@ interface IUserPrompt {
   userPrompt: string;
 };
 
-const difficultyOptions: string[] = ["beginner", "intermediate", "advanced", "expert"]
-const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
+export const difficultyOptions: string[] = ["beginner", "intermediate", "advanced", "expert"]
+export const quizTypeOptions: string[] = ["multiple choice", "identification", "mixed"]
 
 const CreateQuizDialog = (props: IProps) => {
   const queryClient = useQueryClient();

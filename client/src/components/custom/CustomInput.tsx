@@ -2,6 +2,7 @@ import { memo, type InputHTMLAttributes, useCallback, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, type LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type CustomInputProps = InputHTMLAttributes<HTMLInputElement> & {
   icon: LucideIcon;
@@ -9,7 +10,11 @@ type CustomInputProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 const CustomInput = (props: CustomInputProps) => {
-  const { icon: Icon, isPassword = false, ...rest } = props;
+  const { 
+    icon: Icon, 
+    isPassword = false,
+    className, 
+    ...rest } = props;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   
   const onShowPassword = useCallback(() => {
@@ -22,7 +27,7 @@ const CustomInput = (props: CustomInputProps) => {
       <Input 
         {...rest} 
         type={!isPassword ? "text" : (!showPassword ? "password" : "text")}
-        className="h-11 pl-10 rounded-lg shadow-none"/>
+        className={cn("h-11 pl-10 rounded-lg shadow-none", className && className)}/>
       {isPassword && 
       <Button 
         variant="ghost" 
