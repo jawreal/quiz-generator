@@ -5,17 +5,13 @@ import {
   DialogTitle,   
   DialogDescription,
 } from "@/components/ui/dialog"
-import CustomInput from "@/components/custom/CustomInput"
 import { Search } from "lucide-react"
-import {
-  difficultyOptions,
-  quizTypeOptions,  
-  type QuizData, 
-} from "@/components/custom/CreateQuizDialog";
-import { useState } from "react";
-import CustomDropdown from '@/components/custom/CustomDropdown'
+import { useCallback, useState, type ChangeEvent } from "react";
+import CustomInput from '@/components/custom/CustomInput'
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom"
+import useDebounce from "@/hooks/useDebounce"
+import { useQuery } from "@tanstack/react-query"
 
 interface IProps {
   open: boolean;
@@ -28,30 +24,27 @@ interface IQuizzes {
   icon: string;
 }
 
-const quizzes: IQuizzes[] = [
-  {
-    _id: "1", 
-    title: "Basic Math Quiz", 
-    icon: "🚀", 
-  },
-  {
-    _id: "2", 
-    title: "Basic English Quiz", 
-    icon: "✨", 
-  },
-  {
-    _id: "3", 
-    title: "Basic Science Quiz", 
-    icon: "🌙", 
-  },
-]
-
 const SearchDialog = (props: IProps) => {
   const { open, onOpenChange } = props;
-  const [quizData, setQuizData] = useState<QuizData>({
-    difficulty: "beginner", 
-    quizType: "multiple choice", 
+  const [search, setSearch] = useState<string>("")
+  const debouncedValue = useDebounce(search?.toLowerCase())
+  const { data: quizzes, isLoading } = useQuery<IQuizzes[]>({
+    queryKey: ["search-quiz", debouncedValue],
+    queryFn: async () => {
+      const response = await fetch(`/api/quiz/user/search?searchValue=${debouncedValue}`)
+      if(!response.ok){
+        throw new Error("Failed to query")
+      }
+      const result = await response.json();
+      console.log(result) 
+      return result
+    }, 
+    enabled: debouncedValue.trim().length > 0
   });
+  
+  const onSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }, [])
   
   return (
   <Dialog
@@ -68,11 +61,9 @@ const SearchDialog = (props: IProps) => {
       <CustomInput
         icon={Search}
         placeholder="Search"
+        value={search}
+        onChange={onSearch}
         className="rounded-lg" />
-      <div className="flex w-full gap-x-2">
-         <CustomDropdown title="difficulty" options={difficultyOptions} state={quizData} setState={setQuizData} /> 
-         <CustomDropdown title="quizType" options={quizTypeOptions} state={quizData} setState={setQuizData} /> 
-      </div>
       <div className="flex w-full flex-col gap-y-2 divide-y divide-zinc-300 dark:divide-zinc-800 overflow-y-auto flex-1">
         {quizzes?.map((quiz: IQuizzes, idx: number) => (
          <Link key={idx} to={`/quiz/take/${quiz?._id?.toString() ?? "#"}`} className="flex gap-x-2 py-3">

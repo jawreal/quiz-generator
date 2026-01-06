@@ -3,7 +3,8 @@ import AIController from "@/controllers/AIController";
 import UserQuizzes from "@/controllers/UserQuizzes";
 import TakeQuizController from "@/controllers/TakeQuizController";
 import SubmitUserQuiz from "@/controllers/SubmitUserQuiz";
-import { ValidateBeforeGenerate, ValidateBeforeSubmit } from "@/middlewares/ValidateQuiz";
+import SearchController from "@/controllers/SearchController";
+import { ValidateBeforeGenerate, ValidateBeforeSubmit, ValidateBeforeSearch } from "@/middlewares/ValidateQuiz";
 import { query } from "express-validator";
 const router = Router();
 const validateTakeQuiz = [
@@ -13,6 +14,7 @@ const validateTakeQuiz = [
 
 router.get("/user/link", UserQuizzes);
 router.get("/user/take", validateTakeQuiz, TakeQuizController);
+router.get("/user/search", ValidateBeforeSearch, SearchController);
 router.post("/ai/generate", ValidateBeforeGenerate, AIController);
 router.post("/user/submit", ValidateBeforeSubmit, SubmitUserQuiz);
 

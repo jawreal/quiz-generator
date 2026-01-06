@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 
 const ValidateBeforeGenerate = [
   body("difficulty").notEmpty().withMessage("Difficulty field is required").isString().withMessage("Difficulty must be a string"), 
@@ -28,4 +28,8 @@ const ValidateBeforeSubmit = [
     .isString().withMessage("userAns must be a string")
 ];
 
-export { ValidateBeforeGenerate, ValidateBeforeSubmit };
+const ValidateBeforeSearch = [
+  query("searchValue").optional().isString(),
+]
+
+export { ValidateBeforeGenerate, ValidateBeforeSubmit, ValidateBeforeSearch };
