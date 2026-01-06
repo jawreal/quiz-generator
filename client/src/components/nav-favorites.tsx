@@ -35,8 +35,16 @@ export function NavFavorites({
 }: {
   quizzes: IQuiz[]
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, toggleSidebar } = useSidebar()
   const location = useLocation();
+  
+  const offSidebar = () => {
+    if(isMobile) {
+      setTimeout(() => {
+        toggleSidebar();
+      }, 50)
+    } 
+  }
   
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -45,7 +53,11 @@ export function NavFavorites({
         {quizzes?.map((item: IQuiz, idx: number) => (
           <SidebarMenuItem key={idx}>
             <SidebarMenuButton asChild data-active={location.pathname?.includes(item?._id?.toString()) ?? false}>
-              <Link to={`/quiz/take/${item?._id?.toString() ?? "#"}`} title={item?.title}>
+              <Link
+                to={`/quiz/take/${item?._id?.toString() ?? "#"}`} 
+                title={item?.title}
+                onClick={offSidebar}
+              >
                 <span>{item?.icon ?? "No icon found"}</span>
                 <span>{item?.title ?? "No title found"}</span>
               </Link>

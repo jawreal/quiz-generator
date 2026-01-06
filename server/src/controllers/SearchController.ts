@@ -28,7 +28,10 @@ const SearchController = async (req: Request, res: Response, next: NextFunction)
       icon: 1,
     }) // query
     
-   res.status(201).json(result)
+   res.status(201).json({
+     quizzes: result, 
+     hasNoResult: result.length > 0
+   })
   }catch(error){
     next(error)
   }
