@@ -32,4 +32,13 @@ const ValidateBeforeSearch = [
   query("searchValue").optional().isString(),
 ]
 
-export { ValidateBeforeGenerate, ValidateBeforeSubmit, ValidateBeforeSearch };
+const ValidateBeforeDelete = [
+  body("quiz_id").notEmpty().isMongoId(),
+]
+
+export { 
+  ValidateBeforeGenerate, 
+  ValidateBeforeSubmit, 
+  ValidateBeforeSearch, 
+  ValidateBeforeDelete, 
+};

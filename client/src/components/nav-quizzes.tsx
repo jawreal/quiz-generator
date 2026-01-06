@@ -2,7 +2,6 @@ import {
   ArrowUpRight,
   ArrowUp,
   MoreHorizontal,
-  StarOff,
   Trash2,
 } from "lucide-react"
 
@@ -23,6 +22,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "react-router-dom";
+import { useCallback } from "react"
 
 interface IQuiz {
   title: string
@@ -30,7 +30,7 @@ interface IQuiz {
   icon: string
 }
 
-export function NavFavorites({
+export function NavQuizzes({
   quizzes,
 }: {
   quizzes: IQuiz[]
@@ -45,6 +45,20 @@ export function NavFavorites({
       }, 50)
     } 
   }
+  
+  const onOpenNewTab = useCallback((e: Event) => {
+    const id = (e.currentTarget as HTMLElement).id;
+    const url = `${window.location.origin}/quiz/take/${id}`
+     window.open(url, "_blank", "noopener,noreferrer")
+  }, []);
+  
+  const onCopyLink = useCallback(async () => {
+    try{
+      await navigator.clipboard.writeText(window.location.href)
+    }catch(err){
+      console.error(err)
+    }
+  }, [])
   
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -70,20 +84,17 @@ export function NavFavorites({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-56 rounded-lg"
+                className="w-48 rounded-lg"
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
               >
-                <DropdownMenuItem>
-                  <StarOff className="text-muted-foreground" />
-                  <span>Remove from Favorites</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={onCopyLink}>
                   <ArrowUp className="text-muted-foreground" />
                   <span>Copy Link</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  id={item?._id?.toString() ?? "#"}
+                  onSelect={onOpenNewTab}>
                   <ArrowUpRight className="text-muted-foreground" />
                   <span>Open in New Tab</span>
                 </DropdownMenuItem>

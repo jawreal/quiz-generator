@@ -6,7 +6,7 @@ import {
   Sparkles,
 } from "lucide-react"
 
-import { NavFavorites } from "@/components/nav-favorites"
+import { NavQuizzes } from "@/components/nav-quizzes"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
@@ -73,7 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        {!isLoading && <NavFavorites quizzes={quizzes} />}
+        {!isLoading && <NavQuizzes quizzes={quizzes} />}
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
