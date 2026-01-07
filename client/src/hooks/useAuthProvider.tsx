@@ -5,6 +5,9 @@ import { Loader } from "lucide-react";
 interface IAuth {
   fullName: string | undefined;
   username: string | undefined;
+  error?: Error | null;
+  isLoading: boolean; 
+  refetch: () => void;
 }
 
 const AuthContext = createContext<IAuth | null>(null);
@@ -12,10 +15,13 @@ const AuthContext = createContext<IAuth | null>(null);
 const AuthProvider = ({ children }: {
   children: ReactNode;
 }) => {
-  const { data, isLoading } = useQuery<IAuth>({
+  const { data, isLoading, error, refetch } = useQuery<IAuth>({
     queryKey: ["user"], 
     queryFn: async () => {
       const res = await fetch("/api/auth/check/user");
+      if(!res.ok){
+        throw new Error("Unauthorized")
+      }
       const user = await res.json();
       return user
     }
@@ -32,7 +38,12 @@ const AuthProvider = ({ children }: {
     );
   }
   return (
-    <AuthContext.Provider value={{ fullName: data?.fullName, username: data?.username }}>
+    <AuthContext.Provider value={{ fullName: data?.fullName, 
+      username: data?.username,
+      error, 
+      isLoading, 
+      refetch, 
+    }}>
      {children}
     </AuthContext.Provider>
     )

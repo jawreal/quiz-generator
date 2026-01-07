@@ -6,16 +6,26 @@ import RegisterAccount, { type UserInfo } from "@/services/registerAccount";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { User, AtSign, Lock } from "lucide-react"
 import { Link } from "react-router-dom"
+import { CustomToast } from "@/components/custom/CustomToast";
+import { useAuth } from "@/hooks/useAuthProvider"
+
 
 const SignUpForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
   const { register, handleSubmit } = useForm<UserInfo>();
+  const { refetch } = useAuth();
   
   const onSubmit: SubmitHandler<UserInfo> = async (data) => {
     const result = await RegisterAccount(data);
-    console.log(result);
+    if(result.success){
+      return refetch();
+    }
+    CustomToast({
+      status: "error", 
+      description: "Internal server error"
+    })
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

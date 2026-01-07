@@ -8,7 +8,7 @@ import {
 import { useState, type FormEvent } from 'react';
 import { RefreshCw } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 interface IProps {
   open: boolean;
@@ -17,7 +17,6 @@ interface IProps {
 
 const LogoutDialog = (props: IProps) => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const { open, onOpenChange } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,7 +33,6 @@ const LogoutDialog = (props: IProps) => {
       queryClient.invalidateQueries({
         queryKey: ["user"]
       });
-      return navigate("/login");
     }catch(error){
       console.log("Error in logging out");
     }finally{

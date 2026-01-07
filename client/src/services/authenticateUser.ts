@@ -1,4 +1,5 @@
 import type { UserAuth } from "@/services/registerAccount";
+import { CustomToast } from "@/components/custom/CustomToast"
 
 const AuthenticateUser = async (props: UserAuth) => {
   try{
@@ -11,6 +12,10 @@ const AuthenticateUser = async (props: UserAuth) => {
       credentials: "include"
     });
     if(response.status === 401) {
+      CustomToast({
+        status: "error", 
+        description: "Incorrect username or password"
+      })
       return { success: false, message: "Incorrect credentials" };
     }
     if(!response.ok){
@@ -19,6 +24,10 @@ const AuthenticateUser = async (props: UserAuth) => {
     return { success: true };
   }catch(error){
     console.error(error)
+    CustomToast({
+      status: "error", 
+      description: "Internal server error"
+    })
     return { success: false } 
   }
 };

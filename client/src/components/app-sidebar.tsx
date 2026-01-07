@@ -9,7 +9,6 @@ import {
 import { NavQuizzes } from "@/components/nav-quizzes"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +17,8 @@ import {
   SidebarFooter, 
 } from "@/components/ui/sidebar"
 import { useQuery } from "@tanstack/react-query"
+import QuizLogo from "@/components/custom/QuizLogo"
+ 
 
 // This is sample data.
 const data = {
@@ -69,7 +70,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <div className="px-2 mt-1">
+          <QuizLogo />
+        </div>
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>

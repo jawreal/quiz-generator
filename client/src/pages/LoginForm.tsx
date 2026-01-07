@@ -7,12 +7,15 @@ import AuthenticateUser from "@/services/authenticateUser";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { AtSign, Lock } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useAuth } from "@/hooks/useAuthProvider"
 
 const LoginForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
   const { register, handleSubmit } = useForm<UserAuth>();
+  const { refetch } = useAuth();
+  
   const onSubmit: SubmitHandler<UserAuth> = async (data) => {
     const result = await AuthenticateUser(data);
     if(!result?.success){
@@ -21,6 +24,7 @@ const LoginForm = ({
       };
       console.log("Failed to login")
     };
+    refetch();
     console.log("Login successful")
   }
   return (
