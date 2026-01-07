@@ -23,11 +23,18 @@ import {
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "react-router-dom";
 import { useCallback } from "react"
+import DeleteQuizDialog from "@/components/custom/DeleteQuizDialog";
+import { useState } from "react";
 
 interface IQuiz {
   title: string
   _id: string
   icon: string
+}
+
+interface IQuizDelete {
+  quiz_id: string;
+  quizName: string;
 }
 
 export function NavQuizzes({
@@ -37,6 +44,11 @@ export function NavQuizzes({
 }) {
   const { isMobile, toggleSidebar } = useSidebar()
   const location = useLocation();
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [quizInfo, setQuizInfo] = useState<IQuizDelete>({
+    quiz_id: "",
+    quizName: "",
+  })
   
   const offSidebar = () => {
     if(isMobile) {
@@ -47,6 +59,7 @@ export function NavQuizzes({
   }
   
   const onOpenNewTab = useCallback((e: Event) => {
+    e.preventDefault();
     const id = (e.currentTarget as HTMLElement).id;
     const url = `${window.location.origin}/quiz/take/${id}`
      window.open(url, "_blank", "noopener,noreferrer")
@@ -58,11 +71,27 @@ export function NavQuizzes({
     }catch(err){
       console.error(err)
     }
+  }, []);
+  
+  const onOpenDelete = useCallback((e: Event, quiz_id?: string, quizName?: string) => {
+    e.preventDefault()
+    if(quizName && quiz_id){
+      setQuizInfo({
+        quiz_id, 
+        quizName,
+      })
+    }
+    setOpenDelete(true)
   }, [])
   
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Quizzes</SidebarGroupLabel>
+     <DeleteQuizDialog
+       open={openDelete}
+       onOpenChange={setOpenDelete}
+       {...quizInfo}
+     /> 
       <SidebarMenu>
         {quizzes?.map((item: IQuiz, idx: number) => (
           <SidebarMenuItem key={idx}>
@@ -99,7 +128,9 @@ export function NavQuizzes({
                   <span>Open in New Tab</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                   onSelect={(e) => onOpenDelete(e, item?._id, item?.title)}
+                   >
                   <Trash2 className="text-muted-foreground" />
                   <span>Delete</span>
                 </DropdownMenuItem>
