@@ -3,19 +3,33 @@ dotenv.config();
 import QuizRouter from "@/routers/QuizRouter";
 import AuthRouter from "@/routers/AuthRouter";
 import morgan from "morgan";
-import express from "express";
+import express, { type Request, type Response } from "express";
 import cors from "cors";
 import errorHandler from "@/middlewares/ErrorHandler";
 import passport from "passport";
 import session from "express-session";
 import { store } from "@/config/DbConfig";
 import "@/config/PassportStrat";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+/*import mongoSanitize from "express-mongo-sanitize";*/
+import path from "path"
 
 const app = express(); 
 const isDeployed: boolean = process.env.NODE_ENV === "production";
 
-app.use(express.json());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+}); 
+
 app.use(morgan(isDeployed ? "combined" : "dev"));
+app.disabled("x-powered-by")
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+); 
 if (!isDeployed) {
   app.use(
     cors({
@@ -26,6 +40,11 @@ if (!isDeployed) {
     })
   );
 };
+app.use(express.json());
+/*app.use(mongoSanitize());*/
+if (isDeployed) {
+  app.use("/api/auth", limiter);
+}
 app.use(
   session({
     secret: process.env.PASSPORT_SECRET ?? "",
@@ -46,6 +65,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api/quiz", QuizRouter);
 app.use("/api/auth", AuthRouter);
+
+const distPath = path.join(__dirname, "../../client/dist");
+app.use(express.static(distPath));
+app.get("/*splat", (_req: Request, res: Response) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 app.use(errorHandler);
 
 export default app;
