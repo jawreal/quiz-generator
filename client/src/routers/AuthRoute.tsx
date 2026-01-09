@@ -5,8 +5,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuthProvider"
 
 const AuthRoute = () => {
-  const { error, isLoading, fullName } = useAuth();
-  if(!error && !isLoading && fullName){
+  const { isLoggedIn, isLoading } = useAuth();
+  if(isLoggedIn && !isLoading){
     return <Navigate to="/quiz/create" replace />
   }
   return (

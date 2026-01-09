@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import type { UserAuth } from "@/services/registerAccount";
 import AuthenticateUser from "@/services/authenticateUser";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { AtSign, Lock } from "lucide-react"
+import { AtSign, Lock, RefreshCw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuthProvider"
 
@@ -13,8 +13,8 @@ const LoginForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-  const { register, handleSubmit } = useForm<UserAuth>();
-  const { refetch } = useAuth();
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<UserAuth>();
+  const { refetch, setIsLoggedIn } = useAuth();
   
   const onSubmit: SubmitHandler<UserAuth> = async (data) => {
     const result = await AuthenticateUser(data);
@@ -25,6 +25,7 @@ const LoginForm = ({
       console.log("Failed to login")
     };
     refetch();
+    setIsLoggedIn(true);
     console.log("Login successful")
   }
   return (
@@ -39,9 +40,9 @@ const LoginForm = ({
               <div className="flex h-8 w-8 items-center justify-center rounded-md">
                 <img src="/logo.png" className="size-8" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">Neuro-quiz.</span>
             </a>
-            <h1 className="text-xl font-bold">Welcome to GenQuiz</h1>
+            <h1 className="text-xl font-bold">Welcome to Neuro-quiz</h1>
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link to="/auth" className="underline underline-offset-4">
@@ -71,8 +72,13 @@ const LoginForm = ({
                 className="h-11" 
               />
             </div>
-            <Button type="submit" variant="violet" className="w-full h-11">
-              Login
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              variant="violet"
+              className="w-full h-11">
+             {isSubmitting && <RefreshCw className="animate-spin" />}
+             {isSubmitting ? "Please wait..." : "Login"}
             </Button>
           </div>
         </div>

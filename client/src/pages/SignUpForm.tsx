@@ -4,7 +4,7 @@ import CustomInput from "@/components/custom/CustomInput"
 import { Label } from "@/components/ui/label";
 import RegisterAccount, { type UserInfo } from "@/services/registerAccount";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { User, AtSign, Lock } from "lucide-react"
+import { User, AtSign, Lock, RefreshCw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { CustomToast } from "@/components/custom/CustomToast";
 import { useAuth } from "@/hooks/useAuthProvider"
@@ -14,13 +14,14 @@ const SignUpForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-  const { register, handleSubmit } = useForm<UserInfo>();
-  const { refetch } = useAuth();
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<UserInfo>();
+  const { refetch, setIsLoggedIn } = useAuth();
   
   const onSubmit: SubmitHandler<UserInfo> = async (data) => {
     const result = await RegisterAccount(data);
     if(result.success){
-      return refetch();
+      refetch();
+      return setIsLoggedIn(true);
     }
     CustomToast({
       status: "error", 
@@ -88,8 +89,13 @@ const SignUpForm = ({
                 {...register("password")}
               />
             </div>
-            <Button type="submit" variant="violet" className="w-full h-11">
-              Sign Up
+            <Button 
+              disabled={isSubmitting}
+              type="submit"
+              variant="violet" 
+              className="w-full h-11">
+             {isSubmitting && <RefreshCw className="animate-spin" />}
+             {isSubmitting ? "Please wait..." : "Register"}
             </Button>
           </div>
         </div>

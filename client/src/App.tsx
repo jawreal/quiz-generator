@@ -8,14 +8,14 @@ import useDarkMode from "@/hooks/useDarkMode";
 const App = () => {
   useDarkMode();
   return (
-  <AuthProvider>
-    <Router>
+  <Router> 
+    <AuthProvider>
       <Routes>
        <Route path="/quiz/*" element={<QuizRoute />} />
        <Route path="/auth/*" element={<AuthRoute />} />
       </Routes>
-    </Router>
-  </AuthProvider>
+    </AuthProvider>
+  </Router> 
   )
 }
 
