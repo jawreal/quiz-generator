@@ -90,6 +90,7 @@ const DeleteQuizDialog = ({
         </Alert>
         <DialogFooter className="mt-4 flex-row gap-x-2">
           <Button
+            disabled={deleteStatus === "loading"}
             onClick={onClose}
             variant="outline"
             className="flex-1"

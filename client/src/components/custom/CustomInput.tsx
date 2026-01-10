@@ -30,6 +30,7 @@ const CustomInput = (props: CustomInputProps) => {
         className={cn("h-11 pl-10 rounded-lg shadow-none", className && className)}/>
       {isPassword && 
       <Button 
+        type="button"
         variant="ghost" 
         size="icon"
         onClick={onShowPassword} 

@@ -8,6 +8,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { AtSign, Lock, RefreshCw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuthProvider"
+import { CustomToast } from "@/components/custom/CustomToast"
 
 const LoginForm = ({
   className,
@@ -17,6 +18,13 @@ const LoginForm = ({
   const { refetch, setIsLoggedIn } = useAuth();
   
   const onSubmit: SubmitHandler<UserAuth> = async (data) => {
+    const isValid = Object.values(data).every((v) => v !== "" && v !== undefined && v !== null);
+    if(!isValid){
+      return CustomToast({
+        status: "error", 
+        description: "All fields are required.",
+      })
+    }
     const result = await AuthenticateUser(data);
     if(!result?.success){
       if(result?.message){

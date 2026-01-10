@@ -18,6 +18,13 @@ const SignUpForm = ({
   const { refetch, setIsLoggedIn } = useAuth();
   
   const onSubmit: SubmitHandler<UserInfo> = async (data) => {
+    const isValid = Object.values(data).every((v) => v !== "" && v !== undefined && v !== null);
+    if(!isValid){
+      return CustomToast({
+        status: "error", 
+        description: "All fields are required.",
+      })
+    }
     const result = await RegisterAccount(data);
     if(result.success){
       refetch();
