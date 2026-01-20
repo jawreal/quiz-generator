@@ -31,6 +31,7 @@ const LoginForm = ({
         console.log(result?.message) 
       };
       console.log("Failed to login")
+      return 
     };
     refetch();
     setIsLoggedIn(true);

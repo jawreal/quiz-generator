@@ -41,7 +41,7 @@ const AuthProvider = ({ children }: {
       <div className="w-full min-h-screen flex flex-col items-center justify-center dark:bg-zinc-950">
         <Loader
           size={50}
-          className="animate-spin text-violet-500"
+          className="animate-spin text-violet-400"
         />
       </div>
     );
