@@ -56,7 +56,9 @@ const AuthProvider = ({ children }: {
       isLoading, 
       refetch, 
     }}>
-     {children}
+      <div className="font-inter">
+      {children}
+      </div>
     </AuthContext.Provider>
     )
 };

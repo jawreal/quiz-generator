@@ -38,7 +38,7 @@ const LoginForm = ({
     console.log("Login successful")
   }
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex-1 flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
