@@ -39,8 +39,8 @@ const LoginForm = ({
   }
   return (
     <div className={cn("flex-1 flex flex-col gap-6", className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <div className="w-full flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <a
               href="#"
