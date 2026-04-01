@@ -50,7 +50,7 @@ const HowItHelps = () => {
             key={idx} 
             className="text-center bg-transparent border-0 shadow-none">
             <CardHeader className="gap-y-12 items-center md:flex-col-reverse">
-              <CardTitle className="font-normal text-zinc-200">
+              <CardTitle className="font-normal text-gray-200">
               {benefit.text}
               </CardTitle>
               <Suspense fallback={<Skeleton className="h-28 w-28 bg-violet-700/80" />} > 

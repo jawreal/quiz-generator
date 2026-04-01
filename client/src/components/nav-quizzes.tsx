@@ -95,7 +95,7 @@ export function NavQuizzes({
       <SidebarMenu>
         {quizzes?.map((item: IQuiz, idx: number) => (
           <SidebarMenuItem key={idx}>
-            <SidebarMenuButton asChild data-active={location.pathname?.includes(item?._id?.toString()) ?? false}>
+            <SidebarMenuButton asChild data-active={location.pathname?.includes(item?._id?.toString()) ?? false} className="data-[active=true]:bg-gray-200/60 dark:data-[active=true]:bg-gray-900" >
               <Link
                 to={`/quiz/take/${item?._id?.toString() ?? "#"}`} 
                 title={item?.title}

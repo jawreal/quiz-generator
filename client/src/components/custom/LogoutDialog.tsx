@@ -57,7 +57,7 @@ const LogoutDialog = (props: IProps) => {
         <form onSubmit={handleLogout} className="space-y-4"> 
           <div className="flex flex-col w-full text-center">
             <span className="font-medium" >Are you sure you want to logout? </span>
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">this will make your unsaved work gone</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">this will make your unsaved work gone</span>
           </div>
           <DialogFooter className="flex-row gap-x-2 mt-4">
             <DialogClose asChild>

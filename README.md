@@ -10,7 +10,7 @@ A mid level project that allows user to create a quiz based on their prompt. I d
 
 ## Server 
 
-- Install the dependencies first ```cd server && npm install ``` if you're in root level otherwise just ```npm install```
+- Install the dependencies first ```cd server && npm install ``` if you're in root level otherwise just ```npmp install```
 - See my ```env.d.ts```, you'd see the correct instance of env variables there. 
   * PORT: Just set this as 3000 ```PORT=3000```
   * NODE_ENV: Do not put it in env, platform like render automatically do it. It's just essential for env.d.ts

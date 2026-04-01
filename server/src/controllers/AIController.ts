@@ -44,7 +44,7 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
              User prompt: ${userPrompt}
           `},
         ],
-        model: "gpt-oss-120b", // llama3.1-8b 
+        model: "llama3.1-8b", // gpt-oss-120b. gpt is better but it's unavailable as of now
         max_completion_tokens: 3000,
         temperature: 0.7,
       })) as CerebrasChatResponse;

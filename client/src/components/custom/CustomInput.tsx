@@ -23,7 +23,7 @@ const CustomInput = (props: CustomInputProps) => {
   
   return (
     <div className="w-full relative">
-      <Icon size={20} className="absolute left-3 top-3 text-zinc-500" />
+      <Icon size={20} className="absolute left-3 top-3 text-gray-500" />
       <Input 
         {...rest} 
         type={!isPassword ? "text" : (!showPassword ? "password" : "text")}
@@ -34,7 +34,7 @@ const CustomInput = (props: CustomInputProps) => {
         variant="ghost" 
         size="icon"
         onClick={onShowPassword} 
-        className="absolute right-2 top-1 [&_svg]:size-[20px] text-zinc-500"
+        className="absolute right-2 top-1 [&_svg]:size-[20px] text-gray-500"
       >
        {!showPassword ? <Eye /> : <EyeOff />}
       </Button>} 

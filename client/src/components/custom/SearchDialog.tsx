@@ -83,9 +83,9 @@ const SearchDialog = (props: IProps) => {
         onChange={onSearch}
         className="rounded-lg" />
       {isLoading ? <SearchSkeleton /> :
-      !data?.hasNoResult ? <div className="w-full flex-1 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+      !data?.hasNoResult ? <div className="w-full flex-1 flex items-center justify-center text-gray-500 dark:text-gray-400">
          {debouncedValue?.trim().length > 0 ? `No result for ${debouncedValue}` : "Looking for something?"}
-      </div> : <div className="flex w-full flex-col gap-y-2 divide-y divide-zinc-300 dark:divide-zinc-800 overflow-y-auto flex-1">
+      </div> : <div className="flex w-full flex-col gap-y-2 divide-y divide-gray-300 dark:divide-gray-800 overflow-y-auto flex-1">
         {data?.quizzes?.map((quiz: IQuizInfo, idx: number) => (
          <Link 
            key={idx} 
@@ -97,7 +97,7 @@ const SearchDialog = (props: IProps) => {
             <span className="font-medium truncate text-sm" >{quiz?.title ?? "Title not found"}</span>
             <ArrowUpRight 
              size={20} 
-             className="ml-auto text-zinc-400 dark:text-zinc-500"
+             className="ml-auto text-gray-400 dark:text-gray-500"
              />
          </Link>
         ))}

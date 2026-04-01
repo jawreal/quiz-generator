@@ -45,7 +45,7 @@ const chartConfig = {
 const ScoreStats = ({ text, value, idx }: IScoreStats) => (
    <Fragment>
      <div className="w-full flex items-center text-sm">
-         <span className="text-zinc-500 dark:text-zinc-400">{text}</span> 
+         <span className="text-gray-500 dark:text-gray-400">{text}</span> 
          <span className="font-medium ml-auto">{value}</span> 
       </div>
       {idx !== 2 && <Separator />}

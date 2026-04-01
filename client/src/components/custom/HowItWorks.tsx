@@ -53,7 +53,7 @@ const HowItWorks = () => {
             How it works?
           </h2>
           <p 
-           className="text-zinc-500 text-sm md:text-base max-w-2xl mx-auto">
+           className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto">
           Everything you need to generate interactive quizzes from your prompts and improve learning through smart, engaging questions.
           </p>
         </div>

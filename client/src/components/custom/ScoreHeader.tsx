@@ -31,7 +31,7 @@ const ScoreHeader = (props: IProps) => {
     return (
        <Fragment key={idx}>
          <div className="w-full flex items-center text-sm">
-            <span className="text-zinc-500 dark:text-zinc-400">{stats.text}</span> 
+            <span className="text-gray-500 dark:text-gray-400">{stats.text}</span> 
             <span className="font-medium ml-auto flex items-center [&>svg]:ml-1">
               {stats.value}
               {idx === 3 && <Fragment>
