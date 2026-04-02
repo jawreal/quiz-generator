@@ -2,6 +2,7 @@ import { Fragment, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import { type IAuthStore, useAuthStore } from "@/store/authStore";
+import QuizError from "@/components/custom/QuizError"
 
 interface IAuth extends Pick<IAuthStore, "fullName" | "username"> {} // get the fullName and username only
 
@@ -45,11 +46,7 @@ const AuthProvider = ({ children }: {
   }
   
   if(error){
-    return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center dark:bg-zinc-950 dark:text-white">
-      Connection error. Please try again. 
-      </div>
-    );
+    return <QuizError />
   }
   
   return (

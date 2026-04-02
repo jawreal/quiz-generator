@@ -75,8 +75,10 @@ const CreateQuizDialog = (props: IProps) => {
             <CustomDropdown title="difficulty" options={difficultyOptions} state={quizData} setState={setQuizData} /> 
            <CustomDropdown title="quizType" options={quizTypeOptions} state={quizData} setState={setQuizData} /> 
          </div>
-         <div className="w-full relative">
-         <Textarea {...register("userPrompt")} placeholder="Create your AI prompt" className="rounded-lg" rows={5}/>  
+         <div className="w-full relative flex flex-col gap-y-2">
+         <Textarea {...register("userPrompt")} placeholder="Create your AI prompt" className="rounded-lg" rows={5}/>
+         <span className="text-xs text-gray-500">
+           Daily Limit: You can generate up to 3 quizzes per day. This limit is due to AI free-tier usage restrictions.</span>
          </div>
           <DialogFooter className="flex-row gap-x-2">
             <DialogClose asChild>
