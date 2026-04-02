@@ -7,9 +7,7 @@ import {
 } from "@/components/ui/dialog"
 import { useState, type FormEvent } from 'react';
 import { RefreshCw } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "@/hooks/useAuthProvider";
+import { useAuthStore } from "@/store/authStore";
 
 interface IProps {
   open: boolean;
@@ -17,9 +15,7 @@ interface IProps {
 }
 
 const LogoutDialog = (props: IProps) => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { setIsLoggedIn } = useAuth();
+  const { clearSession } = useAuthStore();
   const { open, onOpenChange } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -33,13 +29,7 @@ const LogoutDialog = (props: IProps) => {
       if(!response.ok){
         throw new Error("Failed to logout")
       }
-      queryClient.invalidateQueries({
-        queryKey: ["user"]
-      });
-      setIsLoggedIn(false);
-      navigate("/auth", {
-        replace: true
-      })
+      clearSession();
       console.log("logout success")
     }catch(error){
       console.log("Error in logging out");

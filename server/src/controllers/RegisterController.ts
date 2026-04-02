@@ -22,10 +22,14 @@ const RegisterController = async (req: Request, res: Response, next: NextFunctio
       // authenticate user after registering
       req.login(newUser, (err) => {
         if (err) return next(err);
-
+        
         return res
           .status(201)
-          .json({ message: "User registered and logged in!" });
+          .json({ 
+            message: "User registered and logged in!", 
+            fullName: req.user?.fullName ?? null, 
+            username: req.user?.username ?? null, 
+          });
       });
     }
   }catch(error){

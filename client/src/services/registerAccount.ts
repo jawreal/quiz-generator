@@ -22,8 +22,8 @@ const RegisterAccount = async (userInfo: UserInfo) => {
     if(!response.ok){
       throw new Error("Failed to register user")
     };
-    //const result = await response.json();
-    return { success: true };
+    const result = await response.json();
+    return { success: true, ...result };
   }catch(error){
     console.error(error)
     return { success: false };

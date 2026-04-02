@@ -1,44 +1,41 @@
-import { useEffect, useState, useContext, createContext, type ReactNode, type Dispatch, type SetStateAction } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
+import { type IAuthStore, useAuthStore } from "@/store/authStore";
 
-interface IAuth {
-  fullName: string | undefined;
-  username: string | undefined;
-  isLoggedIn: boolean;
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-  error?: Error | null;
-  isLoading: boolean; 
-  refetch: () => void;
-}
-
-const AuthContext = createContext<IAuth | null>(null);
+interface IAuth extends Pick<IAuthStore, "fullName" | "username"> {} // get the fullName and username only
 
 const AuthProvider = ({ children }: {
   children: ReactNode;
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { data, isLoading, error, refetch } = useQuery<IAuth>({
-    queryKey: ["user"], 
+  const { setUser } = useAuthStore();
+  const { isLoading, error } = useQuery<IAuth>({
+    queryKey: ["user-auth"], 
     queryFn: async () => {
-      const res = await fetch("/api/auth/check/user");
-      if(!res.ok){
-        throw new Error("Unauthorized")
+      const response = await fetch("/api/auth/check/user", {
+        credentials: "include"
+      });
+      if(!response.ok){
+        console.log("Failed to fetch session")
+        throw new Error("Failed to fetch session")
       }
-      const user = await res.json();
-      return user
-    }
+      const result = await response.json();
+      if(result?.isSuccess){
+        setUser({
+        fullName: result?.fullName ?? null, 
+        username: result?.username ?? null,  
+        }); 
+      } // set the user directly if the user is authenticated
+      
+      // return the result but do nothing about it. (this is required)
+      return result
+    }, 
+    staleTime: 1000 * 60 * 5, // 5 minute
   });
-  
-  useEffect(() => {
-    if(!isLoading && data){
-      setIsLoggedIn(true)
-    }
-  }, [isLoading, data])
   
   if (isLoading) {
     return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center dark:bg-zinc-950">
+      <div className="fixed inset-0 flex flex-col items-center justify-center dark:bg-zinc-950 dark:text-white">
         <Loader
           size={50}
           className="animate-spin text-violet-400"
@@ -47,24 +44,19 @@ const AuthProvider = ({ children }: {
     );
   }
   
+  if(error){
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center dark:bg-zinc-950 dark:text-white">
+      Connection error. Please try again. 
+      </div>
+    );
+  }
+  
   return (
-    <AuthContext.Provider value={{ fullName: data?.fullName, 
-      username: data?.username,
-      isLoggedIn, 
-      setIsLoggedIn,
-      error, 
-      isLoading, 
-      refetch, 
-    }}>
+    <Fragment>
       {children}
-    </AuthContext.Provider>
-    )
+    </Fragment>
+  )
 };
 
-const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
-  return ctx;
-};
-
-export { useAuth, AuthProvider };
+export { AuthProvider };

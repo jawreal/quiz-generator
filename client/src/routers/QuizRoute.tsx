@@ -2,12 +2,19 @@ import MainLayout from "@/layouts/MainLayout";
 import QuizPage from "@/pages/QuizPage";
 import GenerateQuiz from "@/components/custom/GenerateQuiz";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuthProvider"
+import { useAuthStore } from "@/store/authStore"
+import { useQueryDummy } from "@/hooks/useQueryDummy";
 
 const QuizRoute = () => {
-  const { isLoggedIn, isLoading } = useAuth();
-  if(!isLoggedIn && !isLoading) {
+  const { isLoggedIn } = useAuthStore();
+  const { isLoading } = useQueryDummy("user-auth");
+  
+  if(!isLoggedIn && !isLoading ) {
     return <Navigate to="/auth" replace />
+  } 
+  
+  if(isLoading){
+    return null
   }
   
   return (
@@ -15,10 +22,6 @@ const QuizRoute = () => {
      <Route path="/" element={<MainLayout />}>
        <Route path="take/:quiz_id?" element={<QuizPage />} />
        <Route path="create" element={<GenerateQuiz />} />
-       <Route
-         path="*"
-         element={<Navigate to="/create" replace />}
-         />
        </Route>
     </Routes>
   );

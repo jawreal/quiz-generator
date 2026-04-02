@@ -13,7 +13,7 @@ passport.use(
     async (username: string, password: string, done: Done) => {
       try {
         const user = await UserModel.findOne({ username: username });
-        if (!user) throw new Error();
+        if (!user) throw new Error("Error in authenticating account");
         const isCorrect = await user.validatePassword(password, username);
         if (isCorrect) {
           done(null, user);
@@ -28,7 +28,6 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log(user);
   done(null, (user as any)._id);
 });
 

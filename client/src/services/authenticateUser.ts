@@ -21,7 +21,8 @@ const AuthenticateUser = async (props: UserAuth) => {
     if(!response.ok){
       throw new Error("Failed to submit request");
     }
-    return { success: true };
+    const user = await response.json();
+    return { success: true, ...user };
   }catch(error){
     console.error(error)
     CustomToast({

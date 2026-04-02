@@ -9,6 +9,7 @@
     "preview": "concurrently \"npm run server\" \"npm run client\""
   },
   "devDependencies": {
+    "baseline-browser-mapping": "^2.10.13",
     "concurrently": "^8.0.0"
   }
 }

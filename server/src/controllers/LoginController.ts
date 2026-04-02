@@ -16,6 +16,8 @@ const LoginController = (req: Request, res: Response, next: NextFunction) => {
         console.log(req?.user?._id)
         return res.status(200).json({
           message: "Signed in successfully",
+          fullName: req.user?.fullName ?? null, 
+          username: req.user?.username ?? null, 
         });
       });
     }

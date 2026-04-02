@@ -18,11 +18,11 @@ import {
 import { Switch } from "@/components/ui/switch";
 import LogoutDialog from "@/components/custom/LogoutDialog";
 import useDarkMode from "@/hooks/useDarkMode";
-import { useAuth } from "@/hooks/useAuthProvider";
+import { useAuthStore } from "@/store/authStore";
 import { useMemo, useState, useCallback } from "react";
 
 export const NavUser = () => {
-  const { fullName, username } = useAuth();
+  const { fullName, username } = useAuthStore();
   const { isMobile } = useSidebar();
   const [darkMode, setDarkMode] = useDarkMode();
   const [openLogout, setOpenLogout] = useState<boolean>(false);
@@ -51,7 +51,7 @@ export const NavUser = () => {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-full">
-                <AvatarImage src={avatar} alt={fullName} />
+                <AvatarImage src={avatar} alt={fullName ?? "profile"} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -72,7 +72,7 @@ export const NavUser = () => {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-full">
-                  <AvatarImage src={avatar} alt={fullName} />
+                  <AvatarImage src={avatar} alt={fullName ?? "profile"} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">

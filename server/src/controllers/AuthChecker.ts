@@ -4,11 +4,14 @@ import type { Request, Response, NextFunction } from "express";
 const CheckAuth = (req: Request, res: Response, next: NextFunction) => {
   try{
     if(req.isAuthenticated()){
-      return res.status(201).json(req.user);
+      return res.status(201).json({
+       isSuccess: true, 
+       fullName: req.user?.fullName ?? null, 
+       username: req.user?.username ?? null, 
+      });
     }
-    res.status(401).json({
-      message: "Unauthorized"
-    })
+    
+    return res.status(200).json({ _id: null, fullName: null, username: null, isSuccess: false });
   }catch(err){
     next(err)
   }

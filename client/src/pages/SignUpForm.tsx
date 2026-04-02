@@ -7,7 +7,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { User, AtSign, Lock, RefreshCw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { CustomToast } from "@/components/custom/CustomToast";
-import { useAuth } from "@/hooks/useAuthProvider"
+import { useAuthStore } from "@/store/authStore"
 
 
 const SignUpForm = ({
@@ -15,7 +15,7 @@ const SignUpForm = ({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<UserInfo>();
-  const { refetch, setIsLoggedIn } = useAuth();
+  const { setUser } = useAuthStore();
   
   const onSubmit: SubmitHandler<UserInfo> = async (data) => {
     const isValid = Object.values(data).every((v) => v !== "" && v !== undefined && v !== null);
@@ -27,8 +27,10 @@ const SignUpForm = ({
     }
     const result = await RegisterAccount(data);
     if(result.success){
-      refetch();
-      return setIsLoggedIn(true);
+      return setUser({
+        fullName: result?.fullName, 
+        username: result?.username, 
+      });
     }
     CustomToast({
       status: "error", 

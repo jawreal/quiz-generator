@@ -4,7 +4,8 @@ declare global {
   namespace Express {
     interface User {
       _id?: Types.ObjectId;
-      username: string;
+      username: string; 
+      fullName?: string;
     }
   }
 }

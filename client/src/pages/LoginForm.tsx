@@ -7,7 +7,7 @@ import AuthenticateUser from "@/services/authenticateUser";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { AtSign, Lock, RefreshCw } from "lucide-react"
 import { Link } from "react-router-dom"
-import { useAuth } from "@/hooks/useAuthProvider"
+import { useAuthStore } from "@/store/authStore";
 import { CustomToast } from "@/components/custom/CustomToast"
 
 const LoginForm = ({
@@ -15,7 +15,7 @@ const LoginForm = ({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<UserAuth>();
-  const { refetch, setIsLoggedIn } = useAuth();
+  const { setUser } = useAuthStore();
   
   const onSubmit: SubmitHandler<UserAuth> = async (data) => {
     const isValid = Object.values(data).every((v) => v !== "" && v !== undefined && v !== null);
@@ -33,10 +33,14 @@ const LoginForm = ({
       console.log("Failed to login")
       return 
     };
-    refetch();
-    setIsLoggedIn(true);
+    
+    setUser({
+      fullName: result?.fullName ?? null,
+      username: result?.username ?? null,
+    })
     console.log("Login successful")
   }
+  
   return (
     <div className={cn("flex-1 flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
