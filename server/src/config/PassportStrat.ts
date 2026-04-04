@@ -40,7 +40,7 @@ passport.deserializeUser(async (id: Express.User, done) => {
       createdAt: 1,
       updatedAt: 1,
     });
-    console.log("From passport: ", user);
+
     if (!user) throw new Error("User not found (from passport)");
     done(null, user);
   } catch (err) {

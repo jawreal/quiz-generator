@@ -13,7 +13,7 @@ const UserQuizzes = async (req: Request, res: Response, next: NextFunction) => {
       title: 1,
       icon: 1,
     }).lean();
-    console.log(quizzes)
+    
     res.status(201).json(quizzes)
   }catch(err){
     next(err);

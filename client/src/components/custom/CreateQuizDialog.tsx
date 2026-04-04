@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import CustomDropdown from '@/components/custom/CustomDropdown'
-import { useState } from 'react';
-import { useForm, type SubmitHandler } from "react-hook-form";
-import CreateQuiz from "@/services/createQuiz";
+import { useState, useMemo } from 'react';
+import { useWatch, useForm, type SubmitHandler } from "react-hook-form";
 import { RefreshCw } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { CustomToast } from "@/components/custom/CustomToast";
 
 interface IProps {
   open: boolean;
@@ -38,27 +38,65 @@ const CreateQuizDialog = (props: IProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { open, onOpenChange } = props;
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm<IUserPrompt>();
+  const { register, control, handleSubmit, formState: { isSubmitting } } = useForm<IUserPrompt>({
+    mode: "onChange"
+  });
   const [quizData, setQuizData] = useState<QuizData>({
     difficulty: "beginner", 
     quizType: "multiple choice", 
   });
-  const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
-    /*queryClient.invalidateQueries({
-      queryKey: ["quizzes"]
-    });
-    navigate(`/quiz/take`) */
-    const input = { ...data, ...quizData };
-    const result = await CreateQuiz(input);
-    if (!result?.success || !result?.quiz_id) {
-      console.error("Failed to create quiz or missing quiz_id");
-      return;
+  
+  const { userPrompt } = useWatch<IUserPrompt>({
+    control
+  });
+  
+  const inputValue = useMemo(() => {
+    if(!userPrompt){
+      return false 
     }
-    queryClient.invalidateQueries({
-      queryKey: ["quizzes"]
-    });
-    navigate(`/quiz/take/${result?.quiz_id}`) 
-    //onOpenChange();
+    
+    return userPrompt?.trim()?.length > 0
+  }, [userPrompt])
+  
+  const onSubmit: SubmitHandler<IUserPrompt> = async (data) => {
+    try{
+      const input = { ...data, ...quizData }; 
+      const response = await fetch("/api/quiz/ai/generate", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(input), 
+        credentials: "include"
+      });
+      
+      if(response.status === 401){
+      // this would check if the user hit the limit
+        const result = await response.json();
+        if(result?.reachedLimit){
+          return CustomToast({
+            status: "error", 
+            description: "You reached your daily quiz limit"
+          })
+        }
+      }
+    
+      if(!response.ok){
+        throw new Error("Internal server error.");
+      }
+      
+      const quiz = await response.json();
+      queryClient.invalidateQueries({
+        queryKey: ["quizzes"]
+      });
+      navigate(`/quiz/take/${quiz?.quiz_id}`) 
+    }catch(error){
+      console.error(error)
+      CustomToast({
+        status: "error", 
+        description: "Internal server error. Please try again."
+      })
+    }
   }
   
   return (
@@ -82,9 +120,9 @@ const CreateQuizDialog = (props: IProps) => {
          </div>
           <DialogFooter className="flex-row gap-x-2">
             <DialogClose asChild>
-              <Button variant="outline" className="flex-1">Cancel</Button>
+              <Button disabled={isSubmitting || !inputValue} variant="outline" className="flex-1">Cancel</Button>
             </DialogClose>
-            <Button disabled={isSubmitting} variant="violet" type="submit" className="flex-1 transition-all active:scale-95">
+            <Button disabled={isSubmitting || !inputValue} variant="violet" type="submit" className="flex-1 transition-all active:scale-95">
              {isSubmitting && <RefreshCw className="animate-spin" />}
              {isSubmitting ? "Please wait..." : "Generate"}
             </Button>
