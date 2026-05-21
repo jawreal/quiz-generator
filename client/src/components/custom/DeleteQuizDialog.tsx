@@ -81,10 +81,9 @@ const DeleteQuizDialog = ({
           </DialogTitle>
           <DialogDescription className="sr-only" />
         </DialogHeader>
-        <Alert variant="destructive" className="mt-1 max-[5rem]">
-          <CircleAlert />
-          <AlertTitle>This action cannot be undone</AlertTitle>
-          <AlertDescription className="w-full max-w-80">
+        <Alert variant="destructive" className="mt-1 max-[5rem] dark:border-red-500">
+          <AlertTitle className="dark:text-red-400" >This action cannot be undone</AlertTitle>
+          <AlertDescription className="w-full max-w-80 dark:text-red-400">
             Are you sure you want to delete this quiz?
           </AlertDescription>
         </Alert>

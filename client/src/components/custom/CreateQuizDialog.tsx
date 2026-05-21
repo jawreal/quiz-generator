@@ -120,7 +120,7 @@ const CreateQuizDialog = (props: IProps) => {
          </div>
           <DialogFooter className="flex-row gap-x-2">
             <DialogClose asChild>
-              <Button disabled={isSubmitting || !inputValue} variant="outline" className="flex-1">Cancel</Button>
+              <Button disabled={isSubmitting} variant="outline" className="flex-1">Cancel</Button>
             </DialogClose>
             <Button disabled={isSubmitting || !inputValue} variant="violet" type="submit" className="flex-1 transition-all active:scale-95">
              {isSubmitting && <RefreshCw className="animate-spin" />}
