@@ -8,7 +8,7 @@ import {
   DialogDescription, 
 } from "@/components/ui/dialog";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { CircleAlert, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CustomToast } from "@/components/custom/CustomToast";
 import { useState } from "react";
