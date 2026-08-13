@@ -5,4 +5,5 @@ declare namespace NodeJS {
     PASSPORT_SECRET: string;
     CEREBRAS_API_KEY: string;
     MONGODB_URI: string;
+    AI_MODEL: string;
   }

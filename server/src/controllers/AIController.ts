@@ -1,7 +1,6 @@
+import "dotenv/config"; 
 import Cerebras from "@cerebras/cerebras_cloud_sdk";
-import dotenv from "dotenv";
 import type { NextFunction, Request, Response } from "express";
-dotenv.config();
 import { AI_COMMAND } from "@/lib/AICommand";
 import { matchedData, validationResult } from "express-validator";
 import { QuizModel, type IQuizSchema } from "@/models/QuizSchema";
@@ -81,7 +80,7 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
              User prompt: ${userPrompt}
           `},
         ],
-        model: "qwen-3-235b-a22b-instruct-2507", // gpt-oss-120b. gpt is better but it's unavailable as of now
+        model: process.env.AI_MODEL!, 
         max_completion_tokens: 3000,
         temperature: 0.7,
       })) as CerebrasChatResponse;
