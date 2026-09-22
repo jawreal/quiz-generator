@@ -1,5 +1,5 @@
 import "dotenv/config"; 
-import Cerebras from "@cerebras/cerebras_cloud_sdk";
+import Groq from "groq-sdk";
 import type { NextFunction, Request, Response } from "express";
 import { AI_COMMAND } from "@/lib/AICommand";
 import { matchedData, validationResult } from "express-validator";
@@ -8,7 +8,7 @@ import { QuizAttemptsModel } from "@/models/QuizAttempts"
 import { Types, startSession } from "mongoose";
 import { getDayRange } from "@/lib/GetDayRange";
 
-interface CerebrasChatResponse {
+interface GroqChatResponse {
   choices: {
     message: {
       role: string;
@@ -18,8 +18,8 @@ interface CerebrasChatResponse {
 };
 
 
-const cerebras = new Cerebras({
-  apiKey: process.env.CEREBRAS_API_KEY,
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 const UserQuizToday = async (user: Types.ObjectId) => {
@@ -70,7 +70,7 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
     }
     
     const { difficulty, quizType, userPrompt } = matchedData(req) as Record<string, string>; 
-    const completion = (await cerebras.chat.completions.create({
+    const completion = (await groq.chat.completions.create({
         messages: [
           {
             role: "system",
@@ -83,7 +83,7 @@ const AIController = async (req: Request, res: Response, next: NextFunction) => 
         model: process.env.AI_MODEL!, 
         max_completion_tokens: 3000,
         temperature: 0.7,
-      })) as CerebrasChatResponse;
+      })) as GroqChatResponse;
     const output = completion.choices[0].message.content;
     // Get the output 
 
