@@ -12,6 +12,7 @@ import { store } from "@/config/DbConfig";
 import "@/config/PassportStrat";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import HealthCheck from "@/controllers/HealthCheck";
 /*import mongoSanitize from "express-mongo-sanitize";*/
 import path from "path"
 
@@ -63,6 +64,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/health/status", HealthCheck);
 app.use("/api/quiz", QuizRouter);
 app.use("/api/auth", AuthRouter);
 
